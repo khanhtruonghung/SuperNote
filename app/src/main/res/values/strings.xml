@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">SuperNote</string>
+    <string name="lbl_title">Title</string>
+    <string name="lbl_description">Description</string>
+    <string name="lbl_start_date">Start:</string>
+    <string name="lbl_end_date">End:</string>
+    <string name="lbl_is_all_day">Is All Day</string>
+    <string name="lbl_save">Save</string>
+    <string name="lbl_cancel">Cancel</string>
+    <string name="lbl_alert">Alert:</string>
+    <string name="lbl_add_list_item">+ List item</string>
+    <string name="lbl_tag">Tag:</string>
 </resources>
