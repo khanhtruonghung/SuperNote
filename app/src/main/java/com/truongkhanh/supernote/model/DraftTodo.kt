@@ -1,37 +1,25 @@
 package com.truongkhanh.supernote.model
 
-import android.os.Parcel
-import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "Draft_Todo")
 data class DraftTodo(
-    var id: String?,
-    var listTodoID: MutableList<String> = mutableListOf(),
-    var isOptimized: Boolean = false
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.createStringArrayList() as MutableList<String>,
-        parcel.readByte() != 0.toByte()
-    ) {
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeStringList(listTodoID)
-        parcel.writeByte(if (isOptimized) 1 else 0)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<DraftTodo> {
-        override fun createFromParcel(parcel: Parcel): DraftTodo {
-            return DraftTodo(parcel)
-        }
-
-        override fun newArray(size: Int): Array<DraftTodo?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
+    @ColumnInfo(name = "Title")
+    var title: String?,
+    @ColumnInfo(name = "Description")
+    var description: String?,
+    @ColumnInfo(name = "Check_List")
+    var checkList: String?,
+    @ColumnInfo(name = "Priority")
+    var priority: Int?,
+    @ColumnInfo(name = "Start_Date")
+    var startDate: Long?,
+    @ColumnInfo(name = "End_Date")
+    var endDate: Long?,
+    @ColumnInfo(name = "Check_Done_Date")
+    var checkDoneDate: Long?
+)

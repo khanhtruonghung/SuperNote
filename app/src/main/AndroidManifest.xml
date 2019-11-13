@@ -18,8 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.truongkhanh.supernote.base.BaseAppBarActivity"/>
-        <activity android:name="com.truongkhanh.supernote.base.BaseNoAppBarActivity"/>
+        <activity android:name="com.truongkhanh.supernote.base.BaseAppBarActivity" />
+        <activity android:name="com.truongkhanh.supernote.base.BaseNoAppBarActivity" />
+        <activity
+            android:name=".view.createtodo.CreateTodoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.evaluate.evaluatelist.EvaluateListActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -36,4 +36,13 @@
         <item name="android:fontFamily">@font/lato_semibold</item>
     </style>
 
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorWhiteGray</item>
+        <item name="colorPrimary">@color/colorWhiteGray</item>
+    </style>
+
+    <style name="CustomCheckBox">
+        <item name="android:buttonTint">@color/colorWhiteGray</item>
+    </style>
+
 </resources>
