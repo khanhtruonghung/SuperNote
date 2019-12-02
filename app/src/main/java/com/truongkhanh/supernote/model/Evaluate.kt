@@ -2,27 +2,46 @@ package com.truongkhanh.supernote.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.*
+import androidx.recyclerview.widget.DiffUtil
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "Evaluate",
+    indices = [Index("Evaluate_Type")])
 data class Evaluate(
-    var id: String?,
-    var evaluateTypeID: String?,
-    var date: Date?,
-    var listTodo: MutableList<Todo>
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Int,
+    @ColumnInfo(name = "Evaluate_Type")
+    var evaluateType: Int,
+    @ColumnInfo(name = "Date")
+    var date: Long,
+    @ColumnInfo(name = "String_Date")
+    var stringDate: String?,
+    @ColumnInfo(name = "Title")
+    var title: String?,
+    @ColumnInfo(name = "Description")
+    var description: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readLong(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readValue(Date::class.java.classLoader) as? Date,
-        parcel.createTypedArrayList(Todo) as MutableList<Todo>
+        parcel.readString()
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(evaluateTypeID)
-        parcel.writeValue(date)
-        parcel.writeTypedList(listTodo)
+        parcel.writeInt(id)
+        parcel.writeInt(evaluateType)
+        parcel.writeLong(date)
+        parcel.writeString(stringDate)
+        parcel.writeString(title)
+        parcel.writeString(description)
     }
 
     override fun describeContents(): Int {
@@ -36,6 +55,14 @@ data class Evaluate(
 
         override fun newArray(size: Int): Array<Evaluate?> {
             return arrayOfNulls(size)
+        }
+
+        val diffUtil = object : DiffUtil.ItemCallback<Evaluate>() {
+            override fun areItemsTheSame(oldItem: Evaluate, newItem: Evaluate): Boolean =
+                (oldItem.id == newItem.id)
+
+            override fun areContentsTheSame(oldItem: Evaluate, newItem: Evaluate): Boolean =
+                (oldItem == newItem)
         }
     }
 }

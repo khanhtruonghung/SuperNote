@@ -10,4 +10,43 @@
     <string name="lbl_alert">Alert:</string>
     <string name="lbl_add_list_item">+ List item</string>
     <string name="lbl_tag">Tag:</string>
+    <string name="lbl_10_minutes">10 minutes</string>
+    <string name="lbl_30_minutes">30 minutes</string>
+    <string name="lbl_1_hour">1 hour</string>
+    <string name="lbl_1_day">1 day</string>
+    <string name="lbl_2_day">2 day</string>
+    <string name="lbl_alert_at">Alert before event</string>
+    <string name="lbl_no_alert">No alert</string>
+    <string name="lbl_tag_name">Tag name</string>
+    <string name="lbl_ok">Ok</string>
+    <string name="lbl_select_color">Select color</string>
+    <string name="lbl_new_tag">New tag</string>
+    <string name="lbl_todo_title">Todo title</string>
+    <string name="lbl_all_day">All day</string>
+    <string name="lbl_priority">Priority</string>
+    <string name="lbl_edit">Edit</string>
+    <string name="lbl_delete">Delete</string>
+    <string name="lbl_todo_updated">Todo updated</string>
+    <string name="lbl_separate_time">-</string>
+
+    <string name="lbl_insert_todo_tag_list_failed">Insert list tag failed, please try again</string>
+    <string name="lbl_insert_todo_failed">Insert todo failed, please try again</string>
+    <string name="lbl_some_thing_went_wrong">Some thing went wrong</string>
+    <string name="lbl_calendar_planning">Calendar planning</string>
+    <string name="lbl_list_note">List note</string>
+    <string name="lbl_draft_note_title">Note your idea</string>
+    <string name="lbl_note_some_thing_here">Noting some thing here</string>
+    <string name="lbl_evaluate">Evaluate</string>
+    <string name="lbl_day_off">Day off</string>
+
+    <string name="lbl_day">D</string>
+    <string name="lbl_month">M</string>
+    <string name="lbl_week">W</string>
+    <string name="lbl_evaluate_title">Evaluate Title</string>
+    <string name="lbl_evaluate_description">Evaluate description</string>
+    <string name="lbl_date_time">Date time:</string>
+    <string name="lbl_check_list">Check list:</string>
+    <string name="lbl_loading_your_todos">Loading your todos</string>
+    <string name="lbl_new_todos">New Todos</string>
+    <string name="lbl_previous_todos">Previous Todos</string>
 </resources>

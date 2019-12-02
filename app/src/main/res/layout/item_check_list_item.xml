@@ -3,6 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="3dp"
     android:background="@color/colorDarkGray"
     >
     <ImageView
@@ -20,6 +21,7 @@
         android:layout_marginStart="5dp"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/btnReorder"
+        style="@style/CustomCheckBox"
         />
     <EditText
         android:id="@+id/etContent"

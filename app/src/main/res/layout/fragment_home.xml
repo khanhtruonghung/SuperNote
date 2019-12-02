@@ -1,52 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentHomeDrawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.mainhome.HomeActivity">
+    android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/lToolbar"
-        layout="@layout/layout_toolbar"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbCreateTodo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/colorAntiAccent"
-        android:src="@drawable/ic_add_black_24dp"
-        />
-
-    <com.haibin.calendarview.CalendarLayout
-        android:id="@+id/layoutCalendarMainHome"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/lToolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        app:default_status="shrink"
-        app:calendar_content_view_id="@+id/recyclerView">
-        <com.haibin.calendarview.CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorDark"
+        tools:context=".view.mainhome.HomeActivity">
+
+        <include
+            android:id="@+id/lToolbar"
+            layout="@layout/layout_toolbar" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fbCreateTodo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorGray"
-            app:month_view="com.truongkhanh.supernote.customcalendarview.CalendarMonthView"
-            app:week_view="com.truongkhanh.supernote.customcalendarview.CalendarWeekView"
-            app:month_view_show_mode="mode_all" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/colorWhiteGray"
+            android:src="@drawable/ic_add_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.haibin.calendarview.CalendarLayout
+            android:id="@+id/layoutCalendarMainHome"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorGray"
-            tools:listitem="@layout/item_simple_todo"
-            />
-    </com.haibin.calendarview.CalendarLayout>
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:calendar_content_view_id="@+id/rvCurrentDayTodo"
+            app:default_status="expand"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lToolbar">
 
+            <com.haibin.calendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorDark"
+                app:month_view="com.truongkhanh.supernote.customcalendarview.CalendarMonthView"
+                app:week_view="com.truongkhanh.supernote.customcalendarview.CalendarWeekView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <RelativeLayout
+                android:id="@+id/rlEmptyView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_home_recyclerview">
+                <ProgressBar
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCurrentDayTodo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_home_recyclerview"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="5dp"
+                tools:listitem="@layout/item_simple_todo" />
+        </com.haibin.calendarview.CalendarLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nvMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <include layout="@layout/layout_menu_navigation_view" />
+
+    </com.google.android.material.navigation.NavigationView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nvDraftNote"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_marginEnd="-64dp">
+
+        <include layout="@layout/layout_draft_note_navigation_view" />
+
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>
