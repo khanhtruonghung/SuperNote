@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import com.truongkhanh.supernote.model.EvaluateTodo
 import com.truongkhanh.supernote.service.EvaluateTodoDao
 import io.reactivex.Completable
-import io.reactivex.Single
 
 class EvaluateTodoRepository(private val evaluateTodoDao: EvaluateTodoDao) {
     fun getAll(): LiveData<MutableList<EvaluateTodo>> = evaluateTodoDao.getEvaluateTodo()

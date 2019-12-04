@@ -44,9 +44,28 @@
     <string name="lbl_week">W</string>
     <string name="lbl_evaluate_title">Evaluate Title</string>
     <string name="lbl_evaluate_description">Evaluate description</string>
+    <string name="lbl_evaluate_datetime">Evaluate datetime</string>
     <string name="lbl_date_time">Date time:</string>
     <string name="lbl_check_list">Check list:</string>
     <string name="lbl_loading_your_todos">Loading your todos</string>
     <string name="lbl_new_todos">New Todos</string>
     <string name="lbl_previous_todos">Previous Todos</string>
+
+    <string name="lbl_day_evalute">Day Evaluate</string>
+    <string name="lbl_week_evalute">Week Evaluate</string>
+    <string name="lbl_month_evalute">Month Evaluate</string>
+    <string name="lbl_note">Note</string>
+
+    <string name="lbl_update_complete">Update complete</string>
+    <string name="lbl_empty_todo_day">You do not have any todo today</string>
+    <string name="lbl_empty_todo_week">You do not have any todo this week</string>
+    <string name="lbl_empty_todo_month">You do not have any todo this month</string>
+    <string name="lbl_today_todo">Today todo</string>
+    <string name="lbl_this_week_todo">This week todo</string>
+    <string name="lbl_this_month_todo">This month todo</string>
+    <string name="lbl_evaluate_time">Evaluate time:\u0020</string>
+    <string name="lbl_evaluate_today">Today\u0020</string>
+    <string name="lbl_evaluate_week">Week\u0020</string>
+    <string name="lbl_evaluate_month">Month\u0020</string>
+    <string name="lbl_evaluate_list">List Evaluate</string>
 </resources>

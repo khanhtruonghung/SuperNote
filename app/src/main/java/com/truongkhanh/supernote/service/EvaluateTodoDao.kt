@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.truongkhanh.supernote.model.EvaluateTodo
 import io.reactivex.Completable
-import io.reactivex.Single
 
 @Dao
 interface EvaluateTodoDao {

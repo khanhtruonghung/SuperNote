@@ -1,107 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:paddingTop="5dp"
-    android:paddingStart="3dp"
-    android:paddingEnd="3dp"
-    android:paddingBottom="5dp"
-    android:background="@drawable/bg_round_corner_dark_gray">
-
-    <TextView
-        android:id="@+id/tvTodoTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:fontFamily="@font/lato_regular"
-        android:textColor="@color/colorWhiteGray"
-        android:textSize="18sp"
-        android:text="@string/lbl_todo_title"
-        />
+    android:paddingTop="3dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="3dp">
 
     <RelativeLayout
-        android:id="@+id/rlDateTime"
-        android:layout_width="0dp"
+        android:id="@+id/rlTime"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
         app:layout_constraintTop_toBottomOf="@id/tvTodoTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/rlCheckList"
+        app:layout_constraintStart_toEndOf="@id/btnPriority"
         >
         <TextView
             android:id="@+id/tvStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="10dp"
             android:textSize="14sp"
-            android:textColor="@color/colorWhiteGray"
-            android:fontFamily="@font/lato_semibolditalic"
-            android:text="25, Oct 2019, 10:00"
+            android:textColor="@color/grey_500"
+            android:fontFamily="@font/lato_regular"
+            android:text="10:00"
             />
         <TextView
             android:id="@+id/tvSeparate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvStartTime"
-            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@id/tvStartTime"
             android:text="@string/lbl_separate_time"
             android:fontFamily="@font/lato_regular"
             android:textSize="14sp"
-            android:textColor="@color/colorWhiteGray"
+            android:textColor="@color/grey_500"
             />
         <TextView
             android:id="@+id/tvEndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/tvSeparate"
+            android:layout_toEndOf="@id/tvSeparate"
             android:textSize="14sp"
-            android:textColor="@color/colorWhiteGray"
-            android:fontFamily="@font/lato_semibolditalic"
-            android:text="25, Oct 2019, 10:00"
+            android:textColor="@color/grey_500"
+            android:fontFamily="@font/lato_regular"
+            android:text="11:00"
             />
     </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/cbTodoDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:button="@drawable/bg_checkbox_selector"
+        />
 
     <RelativeLayout
-        android:id="@+id/rlCheckList"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/rlDateTime"
-        app:layout_constraintTop_toBottomOf="@id/tvTodoTitle"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/btnPriority"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center_horizontal"
+        android:background="@drawable/circle_white_gray"
         >
         <TextView
-            android:id="@+id/tvCheckListTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="14sp"
-            android:fontFamily="@font/lato_semibolditalic"
-            android:text="@string/lbl_check_list"
-            android:textColor="@color/colorWhiteGray"
+            android:id="@+id/tvPriority"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:fontFamily="@font/lato_semibold"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorDark"
+            android:text="9"
             />
-
-        <TextView
-            android:id="@+id/tvCheckSummary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20sp"
-            android:layout_toEndOf="@id/tvCheckListTag"
-            android:text="10/20"
-            android:fontFamily="@font/lato_regular"
-            android:textColor="@color/colorWhiteGray"
-            android:textSize="14sp"
-            />
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvTodoTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cbTodoDone"
+        app:layout_constraintBottom_toTopOf="@id/rlTime"
+        app:layout_constraintStart_toEndOf="@id/btnPriority"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:fontFamily="@font/lato_regular"
+        android:textColor="@color/colorWhiteGray"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@id/cbTodoDone"
+        app:layout_constraintTop_toBottomOf="@id/rlTime"
+        app:layout_constraintStart_toEndOf="@id/btnPriority"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/lato_regular"
+        android:textColor="@color/grey_500"
+        android:textSize="16sp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="2dp"
+        android:background="@color/grey_500"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

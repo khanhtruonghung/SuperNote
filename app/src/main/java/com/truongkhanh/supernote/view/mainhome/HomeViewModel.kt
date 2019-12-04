@@ -24,8 +24,10 @@ class HomeViewModel(private val context: Context) : ViewModel() {
 
     val messageError: LiveData<Event<String>> get() = _messageError
     private var _messageError = MutableLiveData<Event<String>>()
+    val notifyDataChanged: LiveData<Event<Todo>> get() = _notifyDataChanged
+    private var _notifyDataChanged = MutableLiveData<Event<Todo>>()
+
     val todoListInMonth = MutableLiveData<MutableList<Todo>>()
-    val todoListInDay = MutableLiveData<MutableList<Todo>>()
     val dateSelected = MutableLiveData<MyCalendar>()
     val detailTodoData = MutableLiveData<Pair<Todo, MutableList<TagType>?>>()
 
@@ -70,21 +72,14 @@ class HomeViewModel(private val context: Context) : ViewModel() {
             }).disposedBy(bag)
     }
 
-    fun getTodoByDay(calendar: MyCalendar) {
-        val start = 0L
-        val end = 0L
-        todoRepository.getTodoByDay(start, end)
+    fun updateTodo(todo: Todo) {
+        todoRepository.update(todo)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({data ->
-                data?.let{
-
-                }
-            },{
-                it.message?.let{error ->
-                    _messageError.value = Event(error)
-                }
-            }).disposedBy(bag)
+            .subscribe {
+                _notifyDataChanged.value = Event(todo)
+                _messageError.value = Event("Updated")
+            }.disposedBy(bag)
     }
 
     private fun getFirstDay(myCalendar: MyCalendar): Long {
