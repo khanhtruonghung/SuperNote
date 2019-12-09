@@ -28,9 +28,13 @@ data class Todo(
     @ColumnInfo(name = "String_End_Date")
     var stringEndDate: String?,
     @ColumnInfo(name = "Is_All_Day")
-    val isAllDay: Boolean? = false,
+    val isAllDay: Boolean = false,
     @ColumnInfo(name = "Check_Done_Date")
-    var checkDoneDate: Long = 0L
+    var checkDoneDate: Long = 0L,
+    @ColumnInfo(name = "Is_Done")
+    var isDone: Boolean = false,
+    var dateTimeStamp: Long = 0L,
+    var isDateTimeStamp: Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -43,7 +47,8 @@ data class Todo(
         parcel.readLong(),
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
-        parcel.readLong()
+        parcel.readLong(),
+        parcel.readByte() != 0.toByte()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -56,8 +61,9 @@ data class Todo(
         parcel.writeString(stringStartDate)
         parcel.writeLong(endDate)
         parcel.writeString(stringEndDate)
-        parcel.writeByte(if (isAllDay!!) 1 else 0)
+        parcel.writeByte(if (isAllDay) 1 else 0)
         parcel.writeLong(checkDoneDate)
+        parcel.writeByte(if (isDone) 1 else 0)
     }
 
     override fun describeContents(): Int {

@@ -18,8 +18,14 @@ data class Evaluate(
     var evaluateType: Int,
     @ColumnInfo(name = "Date")
     var date: Long,
-    @ColumnInfo(name = "String_Date")
-    var stringDate: String?,
+    @ColumnInfo(name = "Evaluate_Day")
+    var day: Int,
+    @ColumnInfo(name = "Evaluate_Week")
+    var week: Int,
+    @ColumnInfo(name = "Evaluate_Month")
+    var month: Int,
+    @ColumnInfo(name = "Evaluate_Year")
+    var year: Int,
     @ColumnInfo(name = "Title")
     var title: String?,
     @ColumnInfo(name = "Description")
@@ -29,7 +35,10 @@ data class Evaluate(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readLong(),
-        parcel.readString(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
         parcel.readString(),
         parcel.readString()
     ) {
@@ -39,7 +48,10 @@ data class Evaluate(
         parcel.writeInt(id)
         parcel.writeInt(evaluateType)
         parcel.writeLong(date)
-        parcel.writeString(stringDate)
+        parcel.writeInt(day)
+        parcel.writeInt(week)
+        parcel.writeInt(month)
+        parcel.writeInt(year)
         parcel.writeString(title)
         parcel.writeString(description)
     }

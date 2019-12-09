@@ -44,6 +44,13 @@ class CalendarWeekView(context: Context) : WeekView(context) {
         )
     }
 
+    private val selectedPaint = Paint().apply {
+        this.color = com.truongkhanh.supernote.utils.getColor("#33B5E5")
+        this.isAntiAlias = true
+        this.style = Paint.Style.STROKE
+        this.strokeWidth = 2f
+    }
+
     override fun onDrawText(
         canvas: Canvas?,
         calendar: Calendar?,
@@ -71,11 +78,18 @@ class CalendarWeekView(context: Context) : WeekView(context) {
         x: Int,
         hasScheme: Boolean
     ): Boolean {
-        canvas?.drawCircle(
-            (x + mItemWidth / 2).toFloat(),
-            mItemHeight / 2F,
-            mItemWidth / 2.5F,
-            mSelectedPaint
+//        canvas?.drawCircle(
+//            (x + mItemWidth / 2).toFloat(),
+//            mItemHeight / 2F,
+//            mItemWidth / 2.5F,
+//            mSelectedPaint
+//        )
+        canvas?.drawRect(
+            x.toFloat(),
+            0F,
+            x + mItemWidth.toFloat(),
+            mItemHeight.toFloat(),
+            selectedPaint
         )
         return true
     }

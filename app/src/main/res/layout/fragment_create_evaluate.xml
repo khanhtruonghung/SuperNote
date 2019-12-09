@@ -1,238 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorDark"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/colorWhiteGray">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/layout_toolbar_light"/>
+        layout="@layout/layout_toolbar_light" />
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:paddingTop="5dp"
-        android:scrollbarSize="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/layoutAction">
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clEvaluateInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clEvaluateInfo"
+            android:background="@drawable/bg_round_right_corner_dark"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                android:fontFamily="@font/lato_semibolditalic"
+                android:textColor="@color/colorWhiteGray"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:paddingTop="10dp"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:paddingBottom="10dp"
-                android:background="@drawable/bg_round_corner_white_grey_4dp"
-                >
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:fontFamily="@font/lato_semibolditalic"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorDark"
-                    android:text="Evaluate time: Today (1/12/2019)"
-                    />
+            <View
+                android:id="@+id/vLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/grey_500"
+                app:layout_constraintTop_toBottomOf="@id/tvTime" />
 
-                <View
-                    android:id="@+id/vLine"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="3dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvTime"
-                    android:background="@color/colorDark"
-                    />
-
-                <EditText
-                    android:id="@+id/etTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/vLine"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:background="@null"
-                    android:fontFamily="@font/lato_semibold"
-                    android:textColor="@color/colorDark"
-                    android:textSize="20sp"
-                    android:textColorHint="@color/grey_500"
-                    android:hint="@string/lbl_title"/>
-
-                <EditText
-                    android:id="@+id/etNote"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/etTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:background="@null"
-                    android:fontFamily="@font/lato_semibold"
-                    android:textColor="@color/colorDark"
-                    android:textSize="16sp"
-                    android:textColorHint="@color/grey_500"
-                    android:hint="@string/lbl_description" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clNewAdd"
+            <EditText
+                android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:paddingBottom="10dp"
-                app:layout_constraintTop_toBottomOf="@id/clEvaluateInfo"
+                android:layout_marginTop="6dp"
+                android:background="@null"
+                android:fontFamily="@font/lato_semibold"
+                android:hint="@string/lbl_title"
+                android:textColor="@color/colorWhiteGray"
+                android:textColorHint="@color/grey_500"
+                android:textSize="20sp"
+                android:maxLines="2"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@drawable/bg_round_corner_white_grey_4dp"
-                >
+                app:layout_constraintTop_toBottomOf="@id/vLine" />
 
+            <EditText
+                android:id="@+id/etNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@null"
+                android:fontFamily="@font/lato_semibold"
+                android:hint="@string/lbl_note"
+                android:textColor="@color/colorWhiteGray"
+                android:textColorHint="@color/grey_500"
+                android:textSize="16sp"
+                android:maxLines="3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/colorDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clEvaluateInfo">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_round_right_corner_grey">
                 <TextView
-                    android:id="@+id/tvNewTodo"
+                    android:id="@+id/tvTodoListTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="@string/lbl_new_todos"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/lato_semibolditalic"
+                    android:textColor="@color/colorWhiteGray"
                     android:textSize="16sp"
-                    android:textColor="@color/colorDark"
-                    />
-
+                    android:text="@string/lbl_today_todo"/>
                 <View
                     android:id="@+id/vLine2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="3dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvNewTodo"
-                    android:background="@color/colorDark"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/grey_500"
+                    android:layout_below="@id/tvTodoListTag"
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvNewTodos"
+                    android:id="@+id/rvTodos"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/vLine2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:listitem="@layout/item_evaluate_detail"
-                    />
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/vLine2"
+                    tools:listitem="@layout/item_evaluate_detail" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clEmptyView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/vLine2"
+                    android:visibility="gone"
+                    >
+                    <ImageView
+                        android:id="@+id/ivEmptyViewIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tvEmptyViewText"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@drawable/ic_sentiment_dissatisfied_white"
+                        />
+                    <TextView
+                        android:id="@+id/tvEmptyViewText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/ivEmptyViewIcon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:fontFamily="@font/lato_regular"
+                        android:textColor="@color/colorWhiteGray"
+                        android:textSize="16sp"
+                        android:text="@string/lbl_empty_todo_day" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clPreviousTodo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintTop_toBottomOf="@id/clNewAdd"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/bg_round_corner_white_grey_4dp"
-            >
-
-            <TextView
-                android:id="@+id/tvPreviousTodo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="@string/lbl_previous_todos"
-                android:fontFamily="@font/lato_semibolditalic"
-                android:textSize="16sp"
-                android:textColor="@color/colorDark"
-                />
-
-            <View
-                android:id="@+id/vLine3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="3dp"
-                app:layout_constraintTop_toBottomOf="@id/tvPreviousTodo"
-                android:background="@color/colorDark"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvPreviousTodos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/vLine3"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_evaluate_detail"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    </ScrollView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutAction"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/colorWhiteGray"
-        >
-
-        <TextView
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnSave"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textSize="20sp"
-            android:textColor="@color/colorDarkGray"
-            android:fontFamily="@font/lato_semibold"
-            android:text="@string/lbl_cancel"
-            />
-
-        <TextView
-            android:id="@+id/btnSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingStart="50dp"
-            android:paddingEnd="50dp"
-            app:layout_constraintStart_toEndOf="@id/btnCancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/MainTextStyle"
-            android:text="@string/lbl_save"
-            android:textSize="20sp"
-            android:textColor="@color/colorDarkGray"
-            android:fontFamily="@font/lato_semibold"
-            android:layout_alignParentEnd="true"
-            />
-
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

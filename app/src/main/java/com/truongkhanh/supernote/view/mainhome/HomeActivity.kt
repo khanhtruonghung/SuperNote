@@ -6,6 +6,7 @@ import com.truongkhanh.supernote.base.BaseNoAppBarActivity
 import com.truongkhanh.supernote.model.MyCalendar
 import com.truongkhanh.supernote.utils.MY_CALENDAR_BUNDLE
 import com.truongkhanh.supernote.view.createtodo.CreateTodoActivity
+import com.truongkhanh.supernote.view.evaluate.evaluatelist.EvaluateListActivity
 import org.jetbrains.anko.intentFor
 
 class HomeActivity : BaseNoAppBarActivity(), HomeFragment.InteractionListener {
@@ -28,5 +29,9 @@ class HomeActivity : BaseNoAppBarActivity(), HomeFragment.InteractionListener {
 
     override fun navigateToCreateTodo(calendar: MyCalendar?) {
         startActivity(intentFor<CreateTodoActivity>(MY_CALENDAR_BUNDLE to calendar))
+    }
+
+    override fun navigateToEvaluateList() {
+        startActivity(intentFor<EvaluateListActivity>())
     }
 }

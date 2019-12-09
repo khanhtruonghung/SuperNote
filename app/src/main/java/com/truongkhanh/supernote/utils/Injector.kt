@@ -6,6 +6,7 @@ import com.truongkhanh.supernote.view.createtodo.CreateTodoViewModel
 import com.truongkhanh.supernote.view.dialog.bottomsheet.DateTimeDialogViewModel
 import com.truongkhanh.supernote.view.dialog.bottomsheet.DetailTodoDialogViewModel
 import com.truongkhanh.supernote.view.dialog.bottomsheet.TagPickerDialogViewModel
+import com.truongkhanh.supernote.view.evaluate.createevaluate.UpdateEvaluateViewModel
 import com.truongkhanh.supernote.view.evaluate.evaluatelist.EvaluateListViewModel
 import com.truongkhanh.supernote.view.mainhome.HomeViewModel
 
@@ -31,4 +32,8 @@ fun getDetailTodoViewModelFactory(context: Context): ViewModelProvider.Factory {
 
 fun getEvaluateViewModelFactory(context: Context): ViewModelProvider.Factory {
     return EvaluateListViewModel.Factory(context)
+}
+
+fun getEvaluateDetailViewModelFactory(context: Context): ViewModelProvider.Factory {
+    return UpdateEvaluateViewModel.Factory(context)
 }

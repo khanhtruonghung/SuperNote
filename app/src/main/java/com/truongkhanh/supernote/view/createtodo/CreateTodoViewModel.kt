@@ -105,7 +105,7 @@ class CreateTodoViewModel(private val context: Context) : ViewModel() {
             getDefaultDateFormat(startCalendar.value!!),
             endCalendar.value?.timeInMillis!!,
             getDefaultDateFormat(endCalendar.value!!),
-            isAllDay.value
+            isAllDay.value ?: false
         ).also { todo ->
             insertTodo(todo)
                 .subscribeOn(Schedulers.io())

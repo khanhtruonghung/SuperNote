@@ -19,7 +19,7 @@
         android:paddingTop="5dp"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        tools:listitem="@layout/item_evaluate_list"
+        tools:listitem="@layout/item_list_evaluate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
