@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="4dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/bg_round_corner_white_gray"
+        android:background="@drawable/bg_round_corner_white_gray_15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

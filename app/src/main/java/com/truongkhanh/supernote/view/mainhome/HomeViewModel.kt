@@ -3,9 +3,11 @@ package com.truongkhanh.supernote.view.mainhome
 import android.content.Context
 import androidx.lifecycle.*
 import com.truongkhanh.supernote.R
+import com.truongkhanh.supernote.model.DraftNote
 import com.truongkhanh.supernote.model.MyCalendar
 import com.truongkhanh.supernote.model.TagType
 import com.truongkhanh.supernote.model.Todo
+import com.truongkhanh.supernote.repository.DraftNoteRepository
 import com.truongkhanh.supernote.repository.TodoRepository
 import com.truongkhanh.supernote.repository.TodoTagListRepository
 import com.truongkhanh.supernote.service.ApplicationDatabase
@@ -20,12 +22,17 @@ class HomeViewModel(private val context: Context) : ViewModel() {
 
     private val todoRepository: TodoRepository
     private val todoTagListRepository: TodoTagListRepository
+    private val draftNoteRepository: DraftNoteRepository
     private val bag = DisposeBag(context as LifecycleOwner)
 
     val messageError: LiveData<Event<String>> get() = _messageError
     private var _messageError = MutableLiveData<Event<String>>()
+
     val notifyDataChanged: LiveData<Event<Todo>> get() = _notifyDataChanged
     private var _notifyDataChanged = MutableLiveData<Event<Todo>>()
+
+    val insertDraftNoteComplete: LiveData<Event<String>> get() = _insertDraftNoteComplete
+    private var _insertDraftNoteComplete = MutableLiveData<Event<String>>()
 
     val todoListInMonth = MutableLiveData<MutableList<Todo>>()
     val dateSelected = MutableLiveData<MyCalendar>()
@@ -37,6 +44,8 @@ class HomeViewModel(private val context: Context) : ViewModel() {
         todoRepository = TodoRepository(todoDao)
         val todoTagListDao = dbInstance.todoTagListDao()
         todoTagListRepository = TodoTagListRepository(todoTagListDao)
+        val draftNoteDao = dbInstance.draftNoteDao()
+        draftNoteRepository = DraftNoteRepository(draftNoteDao)
     }
 
     fun getTodoByMonthOfYear(calendar: MyCalendar) {
@@ -49,12 +58,12 @@ class HomeViewModel(private val context: Context) : ViewModel() {
         todoRepository.getTodoInMonth(firstDay, lastDay)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({data ->
-                data?.let{
+            .subscribe({ data ->
+                data?.let {
                     todoListInMonth.postValue(it)
                 }
-            },{
-                it.message?.let{error ->
+            }, {
+                it.message?.let { error ->
                     _messageError.value = Event(error)
                 }
             }).disposedBy(bag)
@@ -65,9 +74,9 @@ class HomeViewModel(private val context: Context) : ViewModel() {
         todoTagListRepository.getTagByTodoID(id)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({tagList ->
+            .subscribe({ tagList ->
                 detailTodoData.postValue(Pair(todo, tagList))
-            },{
+            }, {
                 _messageError.value = Event(context.getString(R.string.lbl_some_thing_went_wrong))
             }).disposedBy(bag)
     }
@@ -79,6 +88,21 @@ class HomeViewModel(private val context: Context) : ViewModel() {
             .subscribe {
                 _notifyDataChanged.value = Event(todo)
                 _messageError.value = Event("Updated")
+            }.disposedBy(bag)
+    }
+
+    fun insertDraftNote(title: String, content: String) {
+        val draftNote = DraftNote(
+            0,
+            title,
+            content
+        )
+        draftNoteRepository.insert(draftNote)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                _insertDraftNoteComplete.value =
+                    Event(context.getString(R.string.lbl_insert_draft_note_complete))
             }.disposedBy(bag)
     }
 
@@ -95,7 +119,7 @@ class HomeViewModel(private val context: Context) : ViewModel() {
         return calendar.timeInMillis
     }
 
-    class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return HomeViewModel(context) as T

@@ -65,6 +65,7 @@ class EvaluateListFragment : BaseFragment() {
     }
 
     private fun bindingViewModel() {
+
         val activity = activity ?: return
         evaluateListViewModel = ViewModelProviders
             .of(activity, getEvaluateViewModelFactory(activity))

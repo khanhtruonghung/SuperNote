@@ -116,7 +116,7 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
         RxView.clicks(btnSave)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
-                fragmentHomeDrawerLayout.closeDrawer(nvDraftNote)
+                homeViewModel.insertDraftNote(etTitle.text.toString(), etContent.text.toString())
             }.disposedBy(bag)
     }
 
@@ -153,11 +153,22 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
             val tagList = detailTodoData.second
             showDetailTodoDialog(todo, tagList)
         })
-        homeViewModel.notifyDataChanged.observe(this, Observer {event ->
-            event.getContentIfNotHandled()?.let{todo ->
+        homeViewModel.notifyDataChanged.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let { todo ->
                 todoAdapter.notifyItem(todo)
             }
         })
+        homeViewModel.insertDraftNoteComplete.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                view?.snackbar(it)
+            }
+            clearDraftNoteView()
+        })
+    }
+
+    private fun clearDraftNoteView() {
+        etTitle.setText(NULL_STRING)
+        etContent.setText(NULL_STRING)
     }
 
     private fun addScheme(listTodo: MutableList<Todo>) {

@@ -68,4 +68,7 @@
     <string name="lbl_evaluate_week">Week\u0020</string>
     <string name="lbl_evaluate_month">Month\u0020</string>
     <string name="lbl_evaluate_list">List Evaluate</string>
+    <string name="lbl_take_note">Take note ...</string>
+
+    <string name="lbl_insert_draft_note_complete">Create new draft note</string>
 </resources>
