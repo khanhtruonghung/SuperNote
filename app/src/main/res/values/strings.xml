@@ -2,8 +2,10 @@
     <string name="app_name">SuperNote</string>
     <string name="lbl_title">Title</string>
     <string name="lbl_description">Description</string>
-    <string name="lbl_start_date">Start:</string>
-    <string name="lbl_end_date">End:</string>
+    <string name="lbl_start">Start:</string>
+    <string name="lbl_start_date">Start Date:</string>
+    <string name="lbl_end">End:</string>
+    <string name="lbl_end_date">End Date:</string>
     <string name="lbl_is_all_day">Is All Day</string>
     <string name="lbl_save">Save</string>
     <string name="lbl_cancel">Cancel</string>
@@ -40,8 +42,12 @@
     <string name="lbl_day_off">Day off</string>
 
     <string name="lbl_day">D</string>
+    <string name="lbl_full_day">Day</string>
     <string name="lbl_month">M</string>
+    <string name="lbl_full_month">Month</string>
     <string name="lbl_week">W</string>
+    <string name="lbl_full_week">Week</string>
+
     <string name="lbl_evaluate_title">Evaluate Title</string>
     <string name="lbl_evaluate_description">Evaluate description</string>
     <string name="lbl_evaluate_datetime">Evaluate datetime</string>
@@ -68,7 +74,26 @@
     <string name="lbl_evaluate_week">Week\u0020</string>
     <string name="lbl_evaluate_month">Month\u0020</string>
     <string name="lbl_evaluate_list">List Evaluate</string>
-    <string name="lbl_take_note">Take note ...</string>
 
+    <string name="lbl_take_note">Take note ...</string>
     <string name="lbl_insert_draft_note_complete">Create new draft note</string>
+    <string name="lbl_empty_note_view">Add your notes now</string>
+
+    <string name="lbl_notification_description">This notification will show up when todo alarm was set</string>
+    <string name="lbl_evaluate_type_string">Evaluate type:</string>
+    <string name="lbl_add_new_evaluate_now">Add new evaluate now</string>
+    <string name="lbl_is_optimize">Is Optimize\u0020</string>
+    <string name="lbl_set_daily_working_time">Working hours</string>
+    <string name="lbl_to">To</string>
+    <string name="lbl_working_days">Working days</string>
+    <string name="lbl_sort_config">Sort configure</string>
+    <string name="lbl_daily_estimate">Daily estimate:</string>
+    <string name="lbl_total_estimate">Total estimate:</string>
+    <string name="lbl_hours">Hours</string>
+    <string name="lbl_deadline">Deadline:</string>
+    <string name="lbl_high_priority">High priority</string>
+    <string name="lbl_medium_priority">Medium priority</string>
+    <string name="lbl_low_priority">Low priority</string>
+    <string name="lbl_open_drawer">Open drawer</string>
+    <string name="lbl_close_drawer">Close drawer</string>
 </resources>

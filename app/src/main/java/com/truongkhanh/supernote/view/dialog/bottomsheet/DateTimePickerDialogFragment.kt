@@ -20,7 +20,7 @@ import com.truongkhanh.supernote.utils.DisposeBag
 import com.truongkhanh.supernote.utils.MY_CALENDAR_BUNDLE
 import com.truongkhanh.supernote.utils.disposedBy
 import com.truongkhanh.supernote.utils.getDateTimeDialogViewModelFactory
-import kotlinx.android.synthetic.main.fragment_bottom_sheet_time_picker.*
+import kotlinx.android.synthetic.main.fragment_bottom_sheet_datetime_picker.*
 import java.util.*
 
 class DateTimePickerDialogFragment(
@@ -44,7 +44,7 @@ class DateTimePickerDialogFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_bottom_sheet_time_picker, container, false)
+        return inflater.inflate(R.layout.fragment_bottom_sheet_datetime_picker, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +72,9 @@ class DateTimePickerDialogFragment(
         arguments?.let { bundle ->
             bundle.getParcelable<MyCalendar>(MY_CALENDAR_BUNDLE)?.let {
                 val calendar: Calendar = Calendar.getInstance(Locale.getDefault())
-                calendar.set(it.year, it.month, it.day, it.hour, it.minute)
+                calendar.set(it.year, it.month, it.day)
+                calendar.set(Calendar.HOUR_OF_DAY, it.hour)
+                calendar.set(Calendar.MINUTE, it.minute)
                 setPickerDate(calendar)
                 dateTimeDialogViewModel.calendar.postValue(calendar)
             }
@@ -81,13 +83,13 @@ class DateTimePickerDialogFragment(
 
     private fun setPickerDate(calendar: Calendar) {
         calendarPicker.date = calendar.timeInMillis
-        timePicker.setIs24HourView(true)
+        startTimePicker.setIs24HourView(true)
         if (Build.VERSION.SDK_INT >= 23) {
-            timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
-            timePicker.minute = calendar.get(Calendar.MINUTE)
+            startTimePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
+            startTimePicker.minute = calendar.get(Calendar.MINUTE)
         } else {
-            timePicker.currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-            timePicker.currentMinute = calendar.get(Calendar.MINUTE)
+            startTimePicker.currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+            startTimePicker.currentMinute = calendar.get(Calendar.MINUTE)
         }
     }
 
@@ -108,7 +110,7 @@ class DateTimePickerDialogFragment(
                 dateTimeDialogViewModel.calendar.postValue(calendar)
             }
         }
-        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+        startTimePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
             dateTimeDialogViewModel.calendar.value?.let {
                 val calendar = it
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)

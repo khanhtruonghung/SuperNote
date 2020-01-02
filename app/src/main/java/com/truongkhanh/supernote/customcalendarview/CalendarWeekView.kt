@@ -7,7 +7,9 @@ import android.graphics.Paint
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.WeekView
 import com.truongkhanh.supernote.utils.CALENDAR_TEXT_SIZE
+import com.truongkhanh.supernote.utils.COLOR_WHITE_GREY
 import com.truongkhanh.supernote.utils.dpToPx
+import kotlin.math.min
 
 class CalendarWeekView(context: Context) : WeekView(context) {
 
@@ -25,7 +27,7 @@ class CalendarWeekView(context: Context) : WeekView(context) {
     private val curMonthTextPaint = Paint().apply {
         this.isAntiAlias = true
         this.textAlign = Paint.Align.CENTER
-        this.color = Color.WHITE
+        this.color = com.truongkhanh.supernote.utils.getColor(COLOR_WHITE_GREY)
         this.isFakeBoldText = true
         this.textSize = dpToPx(
             context,
@@ -50,6 +52,8 @@ class CalendarWeekView(context: Context) : WeekView(context) {
         this.style = Paint.Style.STROKE
         this.strokeWidth = 2f
     }
+
+    private var radius: Int = 0
 
     override fun onDrawText(
         canvas: Canvas?,
@@ -78,12 +82,6 @@ class CalendarWeekView(context: Context) : WeekView(context) {
         x: Int,
         hasScheme: Boolean
     ): Boolean {
-//        canvas?.drawCircle(
-//            (x + mItemWidth / 2).toFloat(),
-//            mItemHeight / 2F,
-//            mItemWidth / 2.5F,
-//            mSelectedPaint
-//        )
         canvas?.drawRect(
             x.toFloat(),
             0F,
@@ -94,17 +92,26 @@ class CalendarWeekView(context: Context) : WeekView(context) {
         return true
     }
 
+    override fun onPreviewHook() {
+        radius = min(mItemWidth, mItemHeight) / 5 * 2
+        mSchemePaint.style = Paint.Style.FILL_AND_STROKE
+    }
+
+    private var mRadio = dipToPx(getContext(), 3f).toFloat()
+
     override fun onDrawScheme(canvas: Canvas?, calendar: Calendar?, x: Int) {
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        paint.color = Color.BLUE
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 10F
+        val cx = x + mItemWidth / 2F
+        val cy = mItemHeight / 2F
         canvas?.drawCircle(
-            x + mItemWidth / 2F,
-            (mItemHeight - 3 * paddingTop).toFloat(),
-            mItemHeight / 2F,
-            paint
+            cx,
+            cy + (mRadio * 4),
+            mRadio,
+            mSchemePaint
         )
     }
 
+    private fun dipToPx(context: Context, dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
+    }
 }

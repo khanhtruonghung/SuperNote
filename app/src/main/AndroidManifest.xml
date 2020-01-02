@@ -27,6 +27,12 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".view.evaluate.createevaluate.CreateEvaluateActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.draftnote.list.DraftListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.draftnote.create.CreateNoteActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.planning.PlanningActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

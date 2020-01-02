@@ -2,7 +2,6 @@ package com.truongkhanh.supernote.base
 
 import android.os.Bundle
 import android.view.MenuItem
-import com.truongkhanh.musicapplication.base.BaseActivity
 import com.truongkhanh.supernote.R
 
 open class BaseNoAppBarActivity : BaseActivity() {

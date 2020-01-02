@@ -1,4 +1,4 @@
-package com.truongkhanh.musicapplication.base
+package com.truongkhanh.supernote.base
 
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity

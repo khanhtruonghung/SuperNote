@@ -9,31 +9,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorDark"
+        android:background="@color/colorWhiteGray"
         tools:context=".view.mainhome.HomeActivity">
 
         <include
             android:id="@+id/lToolbar"
             layout="@layout/layout_toolbar" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fbCreateTodo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/colorWhiteGray"
-            android:src="@drawable/ic_add_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <com.haibin.calendarview.CalendarLayout
             android:id="@+id/layoutCalendarMainHome"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:background="@color/colorDark"
             app:calendar_content_view_id="@+id/rvCurrentDayTodo"
-            app:default_status="expand"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/clBottomBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lToolbar">
 
@@ -41,19 +31,17 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorDark"
-                app:month_view="com.truongkhanh.supernote.customcalendarview.CalendarMonthView"
-                app:week_view="com.truongkhanh.supernote.customcalendarview.CalendarWeekView" />
+                />
 
             <RelativeLayout
                 android:id="@+id/rlEmptyView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:background="@drawable/bg_home_recyclerview">
                 <ProgressBar
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    />
+                    android:layout_height="30dp" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -68,8 +56,37 @@
                 tools:listitem="@layout/item_simple_todo" />
         </com.haibin.calendarview.CalendarLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clBottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bottom_bar_home"
+            app:layout_constraintTop_toBottomOf="@id/layoutCalendarMainHome"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+            <RelativeLayout
+                android:id="@+id/fbCreateTodo"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_button_bottom_bar_home"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_black"
+                    android:layout_centerInParent="true"
+                    />
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nvMenu"
         android:layout_width="wrap_content"
@@ -77,9 +94,7 @@
         android:layout_gravity="start">
 
         <include layout="@layout/layout_menu_navigation_view" />
-
     </com.google.android.material.navigation.NavigationView>
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nvDraftNote"
         android:layout_width="match_parent"
@@ -88,7 +103,5 @@
         android:layout_marginEnd="-64dp">
 
         <include layout="@layout/layout_draft_note_navigation_view" />
-
     </com.google.android.material.navigation.NavigationView>
-
 </androidx.drawerlayout.widget.DrawerLayout>

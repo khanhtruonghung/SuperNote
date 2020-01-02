@@ -21,18 +21,20 @@ data class Todo(
     var priority: Int?,
     @ColumnInfo(name = "Start_Date")
     var startDate: Long,
-    @ColumnInfo(name = "String_Start_Date")
-    var stringStartDate: String?,
     @ColumnInfo(name = "End_Date")
     var endDate: Long,
-    @ColumnInfo(name = "String_End_Date")
-    var stringEndDate: String?,
     @ColumnInfo(name = "Is_All_Day")
     val isAllDay: Boolean = false,
+    @ColumnInfo(name = "Alert_Type")
+    var alertType: Int,
     @ColumnInfo(name = "Check_Done_Date")
     var checkDoneDate: Long = 0L,
     @ColumnInfo(name = "Is_Done")
     var isDone: Boolean = false,
+    @ColumnInfo(name = "Notification_Request_ID")
+    var notificationRequestID: String?,
+    @ColumnInfo(name = "Schedule")
+    var schedule: String?,
     var dateTimeStamp: Long = 0L,
     var isDateTimeStamp: Boolean = false
 ) : Parcelable {
@@ -43,12 +45,13 @@ data class Todo(
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readLong(),
-        parcel.readString(),
         parcel.readLong(),
-        parcel.readString(),
         parcel.readByte() != 0.toByte(),
+        parcel.readInt(),
         parcel.readLong(),
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+                parcel.readString(),
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -58,12 +61,13 @@ data class Todo(
         parcel.writeString(checkList)
         parcel.writeValue(priority)
         parcel.writeLong(startDate)
-        parcel.writeString(stringStartDate)
         parcel.writeLong(endDate)
-        parcel.writeString(stringEndDate)
         parcel.writeByte(if (isAllDay) 1 else 0)
+        parcel.writeInt(alertType)
         parcel.writeLong(checkDoneDate)
         parcel.writeByte(if (isDone) 1 else 0)
+        parcel.writeString(notificationRequestID)
+        parcel.writeString(schedule)
     }
 
     override fun describeContents(): Int {

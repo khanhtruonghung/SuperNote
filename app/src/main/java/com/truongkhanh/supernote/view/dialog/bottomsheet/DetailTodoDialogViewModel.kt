@@ -10,7 +10,7 @@ import com.truongkhanh.supernote.repository.TodoTagListRepository
 import com.truongkhanh.supernote.service.ApplicationDatabase
 import com.truongkhanh.supernote.utils.DisposeBag
 import com.truongkhanh.supernote.utils.Event
-import com.truongkhanh.supernote.utils.convertToString
+import com.truongkhanh.supernote.utils.checkItemsToString
 import com.truongkhanh.supernote.utils.disposedBy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -20,8 +20,11 @@ class DetailTodoDialogViewModel(private val context: Context) : ViewModel() {
     private val todoRepository: TodoRepository
     private val todoTagListRepository: TodoTagListRepository
     private val bag = DisposeBag(context as LifecycleOwner)
+
     val notifyEvent: LiveData<Event<String>> get() = _notifyEvent
     private val _notifyEvent: MutableLiveData<Event<String>> = MutableLiveData()
+    val deletedEvent: LiveData<Event<Todo>> get() = _deletedEvent
+    private val _deletedEvent = MutableLiveData<Event<Todo>>()
 
     val todo = MutableLiveData<Todo>()
     val checkList = MutableLiveData<MutableList<CheckItem>>()
@@ -40,7 +43,7 @@ class DetailTodoDialogViewModel(private val context: Context) : ViewModel() {
                         checkItem.isChecked = item.isChecked
                     }
                 }
-                newTodo.checkList = checkList.convertToString()
+                newTodo.checkList = checkList.checkItemsToString()
                 todoRepository.update(newTodo)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -49,6 +52,15 @@ class DetailTodoDialogViewModel(private val context: Context) : ViewModel() {
                     }.disposedBy(bag)
             }
         }
+    }
+
+    fun deleteTodo() {
+        todoRepository.delete(todo.value!!)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                _deletedEvent.value = Event(todo.value!!)
+            }.disposedBy(bag)
     }
 
     class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {

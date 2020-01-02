@@ -11,9 +11,8 @@ import com.truongkhanh.supernote.repository.DraftNoteRepository
 import com.truongkhanh.supernote.repository.TodoRepository
 import com.truongkhanh.supernote.repository.TodoTagListRepository
 import com.truongkhanh.supernote.service.ApplicationDatabase
-import com.truongkhanh.supernote.utils.DisposeBag
-import com.truongkhanh.supernote.utils.Event
-import com.truongkhanh.supernote.utils.disposedBy
+import com.truongkhanh.supernote.utils.*
+import com.truongkhanh.supernote.view.dialog.bottomsheet.MEDIUM_PRIORITY
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -37,6 +36,21 @@ class HomeViewModel(private val context: Context) : ViewModel() {
     val todoListInMonth = MutableLiveData<MutableList<Todo>>()
     val dateSelected = MutableLiveData<MyCalendar>()
     val detailTodoData = MutableLiveData<Pair<Todo, MutableList<TagType>?>>()
+
+    //Draft Note attributes
+    val title = MutableLiveData<String>()
+    val description = MutableLiveData<String>()
+    val priority = MutableLiveData<Int>().apply {
+        postValue(MEDIUM_PRIORITY)
+    }
+    val estimateTotal = MutableLiveData<Int>().apply {
+        postValue(DEFAULT_TOTAL_ESTIMATE)
+    }
+    val estimateDaily = MutableLiveData<Int>().apply {
+        postValue(THIRTY_MINUTES)
+    }
+    val startDate = MutableLiveData<Long>()
+    val deadline = MutableLiveData<Long>()
 
     init {
         val dbInstance = ApplicationDatabase.getInstance(context)
@@ -91,11 +105,16 @@ class HomeViewModel(private val context: Context) : ViewModel() {
             }.disposedBy(bag)
     }
 
-    fun insertDraftNote(title: String, content: String) {
+    fun insertDraftNote() {
         val draftNote = DraftNote(
-            0,
-            title,
-            content
+            id = 0,
+            title = title.value,
+            description = description.value,
+            priority = priority.value!!,
+            estimateDaily = estimateDaily.value!!,
+            estimateTotal = estimateTotal.value!!,
+            startDate = startDate.value!!,
+            deadline = deadline.value!!
         )
         draftNoteRepository.insert(draftNote)
             .observeOn(AndroidSchedulers.mainThread())
@@ -104,6 +123,16 @@ class HomeViewModel(private val context: Context) : ViewModel() {
                 _insertDraftNoteComplete.value =
                     Event(context.getString(R.string.lbl_insert_draft_note_complete))
             }.disposedBy(bag)
+    }
+
+    fun removeTodo(newTodo: Todo) {
+        var position = -1
+        todoListInMonth.value?.forEachIndexed { index, todo ->
+            if (todo.id == newTodo.id)
+                position = index
+        }
+        if (position > -1)
+            todoListInMonth.value?.removeAt(position)
     }
 
     private fun getFirstDay(myCalendar: MyCalendar): Long {

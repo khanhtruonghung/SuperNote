@@ -41,8 +41,12 @@
         <item name="colorPrimary">@color/colorWhiteGray</item>
     </style>
 
-    <style name="CustomCheckBox">
+    <style name="CustomWhiteCheckBox">
         <item name="android:buttonTint">@color/colorWhiteGray</item>
+    </style>
+
+    <style name="CustomDarkCheckBox">
+        <item name="android:buttonTint">@color/colorDark</item>
     </style>
 
 </resources>

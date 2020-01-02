@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorDarkGray">
 
     <RelativeLayout
         android:id="@+id/rlToolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorDark"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/btnBack"
@@ -36,47 +39,248 @@
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:src="@drawable/ic_done_white"
             android:layout_alignParentEnd="true"
-            />
+            android:padding="15dp"
+            android:src="@drawable/ic_done_white" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlPlanningInformation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_round_corner_white_grey_4dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rlToolbar">
+
+        <RelativeLayout
+            android:id="@+id/sortConfigBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvPlanningInformationTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_toStartOf="@id/btnDrop"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/lbl_sort_config"
+                android:textColor="@color/colorDark"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/btnDrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="5dp"
+                android:background="@drawable/bg_button_circle_ripple_black"
+                android:src="@drawable/ic_arrow_drop_up_black_24dp" />
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rlContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sortConfigBar"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_optimize_fill_information">
+
+            <TextView
+                android:id="@+id/tvDailyEstimateTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:fontFamily="@font/lato_semibold"
+                android:paddingTop="8dp"
+                android:text="@string/lbl_daily_estimate"
+                android:textColor="@color/colorDark" />
+
+            <Spinner
+                android:id="@+id/spinnerDailyEstimate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="3dp"
+                android:textAlignment="center"
+                android:entries="@array/spinnerDailyEstimate"
+                />
+
+            <TextView
+                android:id="@+id/tvTotalEstimateTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDailyEstimateTag"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/lato_semibold"
+                android:paddingTop="5dp"
+                android:paddingBottom="3dp"
+                android:text="@string/lbl_total_estimate"
+                android:textAlignment="center"
+                android:textColor="@color/colorDark" />
+
+            <EditText
+                android:id="@+id/etTotalEstimate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinnerDailyEstimate"
+                android:layout_below="@id/spinnerDailyEstimate"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/tvDailyEstimateTag"
+                android:background="@null"
+                android:fontFamily="@font/lato_semibold"
+                android:hint="@string/lbl_hours"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvStartDateTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvTotalEstimateTag"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/lato_semibold"
+                android:paddingTop="5dp"
+                android:paddingBottom="3dp"
+                android:text="@string/lbl_start_date"
+                android:textColor="@color/colorDark" />
+
+            <TextView
+                android:id="@+id/tvStartDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:paddingTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/etTotalEstimate"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="20 Otc, 2019"
+                android:fontFamily="@font/lato_regular"
+                android:textColor="@color/colorDark"
+                android:textAlignment="center"
+                />
+
+            <TextView
+                android:id="@+id/tvDeadlineTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvStartDateTag"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_below="@id/tvStartDateTag"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/lato_semibold"
+                android:paddingTop="5dp"
+                android:paddingBottom="3dp"
+                android:text="@string/lbl_deadline"
+                android:textColor="@color/colorDark" />
+
+            <TextView
+                android:id="@+id/tvDeadline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:paddingBottom="3dp"
+                android:paddingTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/tvStartDate"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="25 Otc, 2019"
+                android:fontFamily="@font/lato_regular"
+                android:textColor="@color/colorDark"
+                android:textAlignment="center"
+                />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="right"
+                app:constraint_referenced_ids="tvDailyEstimateTag,tvDeadlineTag,tvStartDateTag,tvTotalEstimateTag" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 
     <EditText
         android:id="@+id/etTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rlToolbar"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:layout_marginTop="4dp"
         android:background="@color/colorDarkGray"
-        android:hint="@string/lbl_title"
-        android:textColorHint="@color/grey_500"
         android:fontFamily="@font/lato_regular"
+        android:hint="@string/lbl_title"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp"
         android:textColor="@color/colorWhiteGray"
+        android:textColorHint="@color/grey_500"
         android:textSize="18sp"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rlPlanningInformation"
+        app:layout_constraintEnd_toStartOf="@id/btnPriority"/>
+
+    <RelativeLayout
+        android:id="@+id/btnPriority"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toTopOf="@id/etTitle"
+        app:layout_constraintBottom_toBottomOf="@id/etTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/circle_white_gray"
+        >
+        <TextView
+            android:id="@+id/tvPriority"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:fontFamily="@font/lato_semibold"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textColor="@color/colorDark"
+            android:text="M"
+            />
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/etContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/etTitle"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:inputType="textMultiLine|textNoSuggestions"
-        android:gravity="top|start"
+        android:layout_height="0dp"
         android:background="@color/colorDarkGray"
-        android:hint="@string/lbl_note_some_thing_here"
-        android:textColorHint="@color/grey_500"
-        android:textColor="@color/colorWhiteGray"
         android:fontFamily="@font/lato_regular"
+        android:gravity="top|start"
+        android:hint="@string/lbl_note_some_thing_here"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp"
+        android:textColor="@color/colorWhiteGray"
+        android:textColorHint="@color/grey_500"
         android:textSize="16sp"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etTitle" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

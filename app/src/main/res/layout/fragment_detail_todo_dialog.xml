@@ -65,7 +65,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="1dp"
             android:enabled="false"
-            style="@style/CustomCheckBox"
+            style="@style/CustomWhiteCheckBox"
             app:layout_constraintStart_toEndOf="@id/tvIsAllDay"
             app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
@@ -142,6 +142,7 @@
             android:id="@+id/rlActionDetailTodo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
             <TextView
@@ -149,8 +150,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_button_ripple_black_color"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -164,8 +165,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_button_ripple_black_color"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:paddingStart="25dp"
                 android:paddingEnd="25dp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -5,7 +5,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
-import com.truongkhanh.musicapplication.base.BaseActivity
 import com.truongkhanh.supernote.R
 import kotlinx.android.synthetic.main.activity_appbar_layout.*
 

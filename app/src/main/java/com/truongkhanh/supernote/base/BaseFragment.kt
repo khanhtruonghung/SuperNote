@@ -1,4 +1,4 @@
-package com.truongkhanh.musicapplication.base
+package com.truongkhanh.supernote.base
 
 import android.content.Context
 import android.os.Bundle

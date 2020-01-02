@@ -20,6 +20,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -53,6 +56,8 @@ dependencies {
 
     //Calendar view
     implementation 'com.haibin:calendarview:3.6.7'
+    implementation 'com.github.kizitonwose:CalendarView:0.3.1'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 
     //Room database
     implementation "androidx.room:room-runtime:2.2.1"

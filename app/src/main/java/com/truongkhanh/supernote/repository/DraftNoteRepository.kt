@@ -7,7 +7,6 @@ import io.reactivex.Single
 
 class DraftNoteRepository(private val draftNoteDao: DraftNoteDao) {
     fun getAll(): Single<MutableList<DraftNote>> = draftNoteDao.getAllDraftNote()
-
     fun insert(draftNote: DraftNote): Completable = draftNoteDao.createDraftNote(draftNote)
     fun update(draftNote: DraftNote): Completable = draftNoteDao.updateDraftNote(draftNote)
     fun delete(draftNote: DraftNote): Completable = draftNoteDao.deleteDraftNote(draftNote)

@@ -16,8 +16,8 @@ interface TodoDao {
     @Insert
     fun createTodo(todo: Todo): Long
 
-    @Query("select id from Todo where rowid = :rowid")
-    fun getTodoID(rowid: Long): Int
+    @Query("select * from Todo where rowid = :rowid")
+    fun getTodoByRowid(rowid: Long): Todo
 
     @Update
     fun updateTodo(todo: Todo): Completable

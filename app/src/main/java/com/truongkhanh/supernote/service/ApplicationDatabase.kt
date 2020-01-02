@@ -12,10 +12,7 @@ import com.truongkhanh.supernote.model.*
     entities = [Todo::class,
         TagType::class,
         TodoTagList::class,
-        EvaluateTodo::class,
-        EvaluateList::class,
         Evaluate::class,
-        DraftTodo::class,
         DraftNote::class
     ],
     version = 1,
@@ -25,15 +22,10 @@ abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun todoDao(): TodoDao
     abstract fun tagTypeDao(): TagTypeDao
     abstract fun todoTagListDao(): TodoTagListDao
-    abstract fun evaluateTodoDao(): EvaluateTodoDao
-    abstract fun evaluateListDao(): EvaluateListDao
     abstract fun evaluateDao(): EvaluateDao
-    abstract fun draftTodoDao(): DraftTodoDao
     abstract fun draftNoteDao(): DraftNoteDao
 
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
         @Volatile
         private var INSTANCE: ApplicationDatabase? = null
 

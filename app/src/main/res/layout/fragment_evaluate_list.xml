@@ -22,17 +22,110 @@
         tools:listitem="@layout/item_list_evaluate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbCreateEvaluate"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rlEmptyView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/ivEmptyViewIcon"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_insert_comment_white"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivEmptyViewIcon"
+                android:text="@string/lbl_add_new_evaluate_now"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/lato_semibold"
+                android:textColor="@color/colorWhiteGray"
+                android:textSize="20sp"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:background="@color/colorDark"
+        app:layout_constraintTop_toBottomOf="@id/rvEvaluateList"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_add_black_24dp"
-        />
+        >
+
+        <RelativeLayout
+            android:id="@+id/evaluateType"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/bg_button_bottom_bar_home"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fbCreateTodo"
+            >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+                <TextView
+                    android:id="@+id/tvEvaluateTypeTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:textColor="@color/colorDark"
+                    android:text="@string/lbl_evaluate_type_string"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/tvEvaluateType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/lato_semibold"
+                    android:textColor="@color/colorDark"
+                    android:text="@string/lbl_full_day"
+                    android:textSize="16sp"
+                    android:layout_toEndOf="@id/tvEvaluateTypeTag"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fbCreateTodo"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_button_bottom_bar_home"
+            app:layout_constraintStart_toEndOf="@+id/evaluateType"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_black"
+                android:layout_centerInParent="true"
+                />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

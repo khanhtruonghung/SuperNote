@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.truongkhanh.musicapplication.base.BaseFragment
 import com.truongkhanh.supernote.R
+import com.truongkhanh.supernote.base.BaseFragment
 import com.truongkhanh.supernote.model.Evaluate
 import com.truongkhanh.supernote.model.TagType
 import com.truongkhanh.supernote.model.Todo
@@ -121,6 +121,8 @@ class CreateEvaluateFragment : BaseFragment() {
                     ?.plus(evaluate.month)
             }
         }
+        etTitle.setText(evaluate.title.toString())
+        etNote.setText(evaluate.description.toString())
         btnToday.setImageResource(R.drawable.ic_check_black_24dp)
     }
 
@@ -175,10 +177,12 @@ class CreateEvaluateFragment : BaseFragment() {
 
     private fun showDetailTodoDialog(todo: Todo, tagList: MutableList<TagType>?) {
         fragmentManager?.let {
-            val detailTodoDialogFragment = DetailTodoDialogFragment.getInstance()
+            val detailTodoDialogFragment = DetailTodoDialogFragment.getInstance {
+
+            }
             val bundle = Bundle()
             bundle.putParcelable(TODO_BUNDLE, todo)
-            todo.checkList?.convertFromString()?.let { checkList ->
+            todo.checkList?.checkItemsFromString()?.let { checkList ->
                 bundle.putParcelableArrayList(CHECK_LIST_BUNDLE, ArrayList(checkList))
             }
             tagList?.let { it1 ->

@@ -56,8 +56,8 @@ class TodoAdapter(
             holder.title.text = data.title
         }
 
-        holder.startTime.text = getStartTimeString(data)
-        holder.endTime.text = getEndTimeString(data)
+        holder.startTime.text = getTimeString(data.startDate)
+        holder.endTime.text = getTimeString(data.endDate)
         holder.separateTextView.text = getSeparateString(data)
         holder.priority.text = data.priority.toString()
         holder.checkbox.isChecked = data.isDone
@@ -90,21 +90,30 @@ class TodoAdapter(
         }
     }
 
-    private fun getStartTimeString(data: Todo): String {
-        val startCalendar = Calendar.getInstance(Locale.getDefault())
-        startCalendar.timeInMillis = data.startDate
-        return when (startCalendar.get(Calendar.DAY_OF_MONTH)) {
-            currentDay -> getTimeString2(startCalendar)
-            else -> NULL_STRING
+    fun removeTodo(newTodo: Todo) {
+        var position = -1
+        todoList.forEachIndexed { index, todo ->
+            if (todo.id == newTodo.id)
+                position = index
         }
+        if (position > -1)
+            todoList.removeAt(position)
 
+        var position2 = -1
+        todoListFiltered.forEachIndexed { index, todo ->
+            if (todo.id == newTodo.id)
+                position2 = index
+        }
+        if (position2 > -1)
+            todoListFiltered.removeAt(position2)
+        notifyItemRemoved(position2)
     }
 
-    private fun getEndTimeString(data: Todo): String {
-        val endCalendar = Calendar.getInstance(Locale.getDefault())
-        endCalendar.timeInMillis = data.endDate
-        return when (endCalendar.get(Calendar.DAY_OF_MONTH)) {
-            currentDay -> getTimeString2(endCalendar)
+    private fun getTimeString(date: Long): String {
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        calendar.timeInMillis = date
+        return when (calendar.get(Calendar.DAY_OF_MONTH)) {
+            currentDay -> getTimeString2(calendar)
             else -> NULL_STRING
         }
     }

@@ -20,9 +20,9 @@ class TodoRepository(private val todoDao: TodoDao) {
         }
     }
 
-    fun getTodoID(rowid: Long): Single<Int> {
-        return Single.fromCallable<Int> {
-            todoDao.getTodoID(rowid)
+    fun getTodoByRowid(rowid: Long): Single<Todo> {
+        return Single.fromCallable<Todo> {
+            todoDao.getTodoByRowid(rowid)
         }
     }
 

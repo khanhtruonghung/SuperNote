@@ -147,7 +147,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/ic_add_black_24dp"
+                    android:src="@drawable/ic_add_white"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -196,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        style="@style/CustomCheckBox"
+                        style="@style/CustomWhiteCheckBox"
                         />
                 </RelativeLayout>
 
@@ -208,11 +208,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rlIsAllDay"
                     style="@style/MainTextStyle"
-                    android:text="@string/lbl_start_date"
+                    android:text="@string/lbl_start"
                     />
 
                 <TextView
-                    android:id="@+id/tvEndDateTag"
+                    android:id="@+id/tvDeadlineTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -220,7 +220,7 @@
                     android:layout_marginBottom="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvStartDateTag"
-                    android:text="@string/lbl_end_date"
+                    android:text="@string/lbl_end"
                     style="@style/MainTextStyle"/>
 
                 <androidx.constraintlayout.widget.Barrier
@@ -228,7 +228,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="right"
-                    app:constraint_referenced_ids="tvStartDateTag,tvEndDateTag" />
+                    app:constraint_referenced_ids="tvStartDateTag,tvDeadlineTag" />
 
                 <TextView
                     android:id="@+id/tvStartDate"
@@ -265,7 +265,7 @@
                     android:id="@+id/tvAlert"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tvEndDateTag"
+                    app:layout_constraintTop_toBottomOf="@id/tvDeadlineTag"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="20dp"

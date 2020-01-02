@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.truongkhanh.musicapplication.base.BaseFragment
 import com.truongkhanh.supernote.R
+import com.truongkhanh.supernote.base.BaseFragment
 import com.truongkhanh.supernote.model.CheckItem
 import com.truongkhanh.supernote.model.MyCalendar
 import com.truongkhanh.supernote.model.TagType
@@ -23,6 +23,7 @@ import com.truongkhanh.supernote.view.dialog.bottomsheet.TagPickerDialogFragment
 import kotlinx.android.synthetic.main.fragment_create_todo.*
 import kotlinx.android.synthetic.main.layout_todo.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import org.jetbrains.anko.design.snackbar
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -100,8 +101,9 @@ class CreateTodoFragment : BaseFragment() {
             tvCurrentDate.text = getDateFormat(startCalendar)
             createTodoViewModel.endCalendar.value?.let { end ->
                 if (startCalendar.timeInMillis > end.timeInMillis) {
-                    startCalendar.add(Calendar.HOUR_OF_DAY, 1)
-                    createTodoViewModel.endCalendar.postValue(startCalendar)
+                    val calendar = startCalendar.clone() as Calendar
+                    calendar.add(Calendar.HOUR_OF_DAY, 1)
+                    createTodoViewModel.endCalendar.postValue(calendar)
                 }
             }
         })
@@ -109,21 +111,25 @@ class CreateTodoFragment : BaseFragment() {
             tvEndDate.text = getDateTimeFormat(endCalendar)
             createTodoViewModel.startCalendar.value?.let { start ->
                 if (endCalendar.timeInMillis < start.timeInMillis) {
-                    endCalendar.add(Calendar.HOUR_OF_DAY, -1)
-                    createTodoViewModel.startCalendar.postValue(endCalendar)
+                    val calendar = endCalendar.clone() as Calendar
+                    calendar.add(Calendar.HOUR_OF_DAY, -1)
+                    createTodoViewModel.startCalendar.postValue(calendar)
                 }
             }
         })
         createTodoViewModel.alert.observe(this, Observer {
             btnAlert.text = getAlertFormat(it, context!!)
         })
-        createTodoViewModel.navigateHomeActivity.observe(this, Observer {
-            val todo = it.getContentIfNotHandled()
-            //TODO: Improve performance by sending todo data back to the main home activity
+        createTodoViewModel.navigateHomeActivity.observe(this, Observer {event ->
             activity?.finish()
         })
         createTodoViewModel.currentDate.observe(this, Observer { currentDate ->
             setupDefaultTime(currentDate)
+        })
+        createTodoViewModel.messageError.observe(this, Observer {event ->
+            event.getContentIfNotHandled()?.let {message ->
+                view?.snackbar(message)
+            }
         })
     }
 

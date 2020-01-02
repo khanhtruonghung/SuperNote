@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
 import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.model.CheckItem
+import com.truongkhanh.supernote.model.ScheduleItem
 import com.truongkhanh.supernote.view.dialog.bottomsheet.AlertPickerDialogFragment
 
 fun dpToPx(context: Context, dpValue: Float): Float {
@@ -46,14 +47,24 @@ fun <T, K, R> MutableLiveData<T>.combineWith(
     return result
 }
 
-fun MutableList<CheckItem>.convertToString(): String {
+fun MutableList<CheckItem>.checkItemsToString(): String {
     val gson = GsonBuilder().create()
     return gson.toJson(this)
 }
 
-fun String.convertFromString(): MutableList<CheckItem> {
+fun String.checkItemsFromString(): MutableList<CheckItem> {
     val gson = GsonBuilder().create()
     return gson.fromJson(this, Array<CheckItem>::class.java).toMutableList()
+}
+
+fun MutableList<ScheduleItem>.scheduleItemsToString(): String {
+    val gson = GsonBuilder().create()
+    return gson.toJson(this)
+}
+
+fun String.scheduleItemsFromString(): MutableList<ScheduleItem> {
+    val gson = GsonBuilder().create()
+    return gson.fromJson(this, Array<ScheduleItem>::class.java).toMutableList()
 }
 
 fun getEnable(enable: Boolean): Int {

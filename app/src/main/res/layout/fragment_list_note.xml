@@ -22,8 +22,40 @@
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:paddingBottom="5dp"
-        tools:listitem="@layout/item_list_note"
+
         />
+
+    <RelativeLayout
+        android:id="@+id/rlEmptyView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnTakeNote"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/ivEmptyViewIcon"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_insert_comment_white"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivEmptyViewIcon"
+                android:text="@string/lbl_empty_note_view"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/lato_semibold"
+                android:textColor="@color/colorWhiteGray"
+                android:textSize="20sp"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/btnTakeNote"

@@ -2,16 +2,22 @@ package com.truongkhanh.supernote.view.createtodo
 
 import android.content.Context
 import androidx.lifecycle.*
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.model.*
 import com.truongkhanh.supernote.repository.TodoRepository
 import com.truongkhanh.supernote.repository.TodoTagListRepository
 import com.truongkhanh.supernote.service.ApplicationDatabase
+import com.truongkhanh.supernote.service.NotificationWorker
 import com.truongkhanh.supernote.utils.*
+import com.truongkhanh.supernote.view.dialog.bottomsheet.AlertPickerDialogFragment
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class CreateTodoViewModel(private val context: Context) : ViewModel() {
 
@@ -19,7 +25,9 @@ class CreateTodoViewModel(private val context: Context) : ViewModel() {
     val checkList = MutableLiveData<MutableList<CheckItem>>()
     val startCalendar = MutableLiveData<Calendar>()
     val endCalendar = MutableLiveData<Calendar>()
-    val alert = MutableLiveData<Int>()
+    val alert = MutableLiveData<Int>().apply {
+        postValue(AlertPickerDialogFragment.ALERT_10_MINUTE)
+    }
     val tagList = MutableLiveData<MutableList<TagType>>()
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
@@ -96,44 +104,76 @@ class CreateTodoViewModel(private val context: Context) : ViewModel() {
 
     fun saveTodo() {
         Todo(
-            0,
-            title.value,
-            description.value,
-            checkList.value?.convertToString(),
-            priority.value,
-            startCalendar.value?.timeInMillis!!,
-            getDefaultDateFormat(startCalendar.value!!),
-            endCalendar.value?.timeInMillis!!,
-            getDefaultDateFormat(endCalendar.value!!),
-            isAllDay.value ?: false
+            id = 0,
+            title = title.value,
+            description = description.value,
+            checkList = checkList.value?.checkItemsToString(),
+            priority = priority.value,
+            startDate = startCalendar.value?.timeInMillis!!,
+            endDate = endCalendar.value?.timeInMillis!!,
+            isAllDay = isAllDay.value ?: false,
+            alertType = alert.value ?: AlertPickerDialogFragment.NO_ALERT,
+            notificationRequestID = NULL_STRING,
+            schedule = NULL_STRING
         ).also { todo ->
             insertTodo(todo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ rowID ->
-                    if (tagList.value.isNullOrEmpty()) {
-                        _navigateHomeActivity.value = Event(todo)
-                    } else {
-                        getTodoID(todo, rowID)
-                    }
+                    getTodoByRowid(rowID)
                 }, {
                     _messageError.value = Event(context.getString(R.string.lbl_insert_todo_failed))
                 }).disposedBy(bag)
         }
     }
 
-    private fun getTodoID(todo: Todo, rowid: Long) {
-        todoRepository.getTodoID(rowid)
+    private fun buildNotificationWorker(todo: Todo): String {
+        return if (todo.alertType != AlertPickerDialogFragment.NO_ALERT) {
+            val data = Data.Builder()
+                .putInt(NOTIFICATION_ID_DATA_TAG, todo.id)
+                .putString(NOTIFICATION_TITLE_DATA_TAG, todo.title)
+                .putString(NOTIFICATION_DESCRIPTION_DATA_TAG, todo.description)
+                .build()
+            val notificationRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
+                .setInputData(data)
+                .setInitialDelay(calculateDelay(todo), TimeUnit.MILLISECONDS)
+                .build()
+            WorkManager.getInstance(context)
+                .enqueue(notificationRequest)
+            notificationRequest.id.toString()
+        } else {
+            NULL_STRING
+        }
+    }
+
+    private fun getTodoByRowid(rowid: Long) {
+        todoRepository.getTodoByRowid(rowid)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({ todoID ->
-                todoID?.let { it1 ->
-                    insertTodoTagList(todo, it1)
+            .subscribe({ mTodo ->
+                mTodo?.let { data ->
+                    updateNotificationRequestID(data)
                 }
             }, {
                 _messageError.value =
                     Event(context.getString(R.string.lbl_some_thing_went_wrong))
             }).disposedBy(bag)
+    }
+
+    private fun updateNotificationRequestID(todo: Todo) {
+        val requestID = buildNotificationWorker(todo)
+        todo.notificationRequestID = requestID
+        todoRepository.update(todo)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe {
+                val isInsertTodoTags = !tagList.value.isNullOrEmpty()
+                if (isInsertTodoTags)
+                    insertTodoTagList(todo, todo.id)
+                else
+                    _navigateHomeActivity.value = Event(todo)
+            }.disposedBy(bag)
+
     }
 
     private fun insertTodoTagList(todo: Todo, todoID: Int) {
@@ -159,6 +199,40 @@ class CreateTodoViewModel(private val context: Context) : ViewModel() {
     private fun insertTodo(todo: Todo): Single<Long> {
         return todoRepository.insert2(todo)
     }
+
+    private fun calculateDelay(todo: Todo): Long {
+        val current = Calendar.getInstance(Locale.getDefault())
+        current.set(Calendar.SECOND, 0)
+
+        val start = current.clone() as Calendar
+        start.timeInMillis = todo.startDate
+        start.set(Calendar.SECOND, 0)
+
+        when (todo.alertType) {
+            AlertPickerDialogFragment.ALERT_10_MINUTE -> {
+                start.add(Calendar.MINUTE, -10)
+            }
+            AlertPickerDialogFragment.ALERT_30_MINUTE -> {
+                start.add(Calendar.MINUTE, -30)
+            }
+            AlertPickerDialogFragment.ALERT_1_HOUR -> {
+                start.add(Calendar.HOUR, -1)
+            }
+            AlertPickerDialogFragment.ALERT_1_DAY -> {
+                start.add(Calendar.DAY_OF_MONTH, -1)
+            }
+            AlertPickerDialogFragment.ALERT_2_DAY -> {
+                start.add(Calendar.DAY_OF_MONTH, -2)
+            }
+        }
+
+        val delay = (start.timeInMillis - current.timeInMillis)
+        return if (delay < 0)
+            0L
+        else
+            delay
+    }
+
 
     class Factory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")

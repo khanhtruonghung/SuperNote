@@ -9,13 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
-import com.truongkhanh.musicapplication.base.BaseFragment
 import com.truongkhanh.supernote.R
+import com.truongkhanh.supernote.base.BaseFragment
 import com.truongkhanh.supernote.model.Evaluate
-import com.truongkhanh.supernote.utils.DisposeBag
-import com.truongkhanh.supernote.utils.THROTTLE_TIME
-import com.truongkhanh.supernote.utils.disposedBy
-import com.truongkhanh.supernote.utils.getEvaluateViewModelFactory
+import com.truongkhanh.supernote.utils.*
 import com.truongkhanh.supernote.view.evaluate.evaluatelist.adapter.EvaluateListAdapter
 import kotlinx.android.synthetic.main.fragment_evaluate_list.*
 import kotlinx.android.synthetic.main.layout_toolbar_light.*
@@ -72,7 +69,12 @@ class EvaluateListFragment : BaseFragment() {
             .get(EvaluateListViewModel::class.java)
 
         evaluateListViewModel.evaluateList.observe(this, Observer { evaluateList ->
-            evaluateListAdapter.submitList(evaluateList)
+            if (!evaluateList.isNullOrEmpty()) {
+                evaluateListAdapter.submitList(evaluateList)
+                setVisibilityEmptyView(false)
+            } else {
+                setVisibilityEmptyView(true)
+            }
         })
         evaluateListViewModel.showMessage.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let{message ->
@@ -80,10 +82,14 @@ class EvaluateListFragment : BaseFragment() {
             }
         })
         evaluateListViewModel.navigateToCreateEvaluate.observe(this, Observer {event ->
-            event.getContentIfNotHandled()?.let{evaluate ->
+            event.getContentIfNotHandled()?.let { evaluate ->
                 navigationListener.navigateToCreateEvaluate(evaluate)
             }
         })
+    }
+
+    private fun setVisibilityEmptyView(enable: Boolean) {
+        rlEmptyView.visibility = getEnable(enable)
     }
 
     private fun initEvaluateListRecyclerView() {
@@ -97,7 +103,7 @@ class EvaluateListFragment : BaseFragment() {
     }
 
     private fun initClickListener() {
-        RxView.clicks(fbCreateEvaluate)
+        RxView.clicks(bottomBar)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
                 evaluateListViewModel.getDayEvaluate()

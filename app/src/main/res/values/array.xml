@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerDailyEstimate">
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>1.5 hours</item>
+        <item>2 hours</item>
+        <item>2.5 hours</item>
+        <item>3 hours</item>
+    </string-array>
+</resources>

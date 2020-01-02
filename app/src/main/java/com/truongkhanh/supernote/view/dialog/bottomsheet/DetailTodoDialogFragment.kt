@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.jakewharton.rxbinding2.view.RxView
 import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.model.CheckItem
 import com.truongkhanh.supernote.model.TagType
@@ -24,11 +25,12 @@ import com.truongkhanh.supernote.view.createtodo.adapter.CheckListAdapter
 import com.truongkhanh.supernote.view.createtodo.adapter.TagListAdapter
 import kotlinx.android.synthetic.main.fragment_detail_todo_dialog.*
 import kotlinx.android.synthetic.main.layout_todo.rvCheckList
+import java.util.concurrent.TimeUnit
 
-class DetailTodoDialogFragment() : BottomSheetDialogFragment() {
+class DetailTodoDialogFragment(private val deletedListener: (Todo) -> Unit) : BottomSheetDialogFragment() {
 
     companion object {
-        fun getInstance() = DetailTodoDialogFragment()
+        fun getInstance(deletedListener: (Todo) -> Unit) = DetailTodoDialogFragment(deletedListener)
     }
 
     override fun onCreateView(
@@ -56,6 +58,17 @@ class DetailTodoDialogFragment() : BottomSheetDialogFragment() {
         bindingViewModel()
         getDataFromBundle()
         setupBottomSheetDialog()
+        initClickEvent()
+    }
+
+    private fun initClickEvent() {
+        RxView.clicks(btnDeleteTodo)
+            .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
+            .subscribe {
+                detailTodoDialogViewModel.todo.value?.let {todo ->
+                    deletedListener(todo)
+                } ?: dismiss()
+            }.disposedBy(bag)
     }
 
     private fun setupBottomSheetDialog() {
@@ -102,13 +115,21 @@ class DetailTodoDialogFragment() : BottomSheetDialogFragment() {
             .get(DetailTodoDialogViewModel::class.java)
 
         detailTodoDialogViewModel.notifyEvent.observe(this, Observer {
-            Log.d("Debuggg", it.getContentIfNotHandled().toString())
+            it.getContentIfNotHandled()?.let { message ->
+                Log.d("Debuggg", message)
+            }
         })
         detailTodoDialogViewModel.todo.observe(this, Observer { todo ->
             tvTitle.text = todo.title
             tvDescription.text = todo.description
             tvPriority.text = todo.priority.toString()
-            cbIsAllDay.isChecked = todo.isAllDay ?: false
+            cbIsAllDay.isChecked = todo.isAllDay
+        })
+        detailTodoDialogViewModel.deletedEvent.observe(this, Observer {event ->
+            event.getContentIfNotHandled()?.let{todo ->
+                deletedListener(todo)
+                dismiss()
+            }
         })
     }
 
