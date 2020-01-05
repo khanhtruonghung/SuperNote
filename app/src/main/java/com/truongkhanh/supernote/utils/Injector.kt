@@ -11,6 +11,7 @@ import com.truongkhanh.supernote.view.draftnote.list.DraftListViewModel
 import com.truongkhanh.supernote.view.evaluate.createevaluate.UpdateEvaluateViewModel
 import com.truongkhanh.supernote.view.evaluate.evaluatelist.EvaluateListViewModel
 import com.truongkhanh.supernote.view.mainhome.HomeViewModel
+import com.truongkhanh.supernote.view.planning.PlanningViewModel
 
 fun getDateTimeDialogViewModelFactory(): ViewModelProvider.Factory {
     return DateTimeDialogViewModel.Factory()
@@ -46,4 +47,8 @@ fun getDraftNoteListViewModelFactory(context: Context): ViewModelProvider.Factor
 
 fun getCreateNoteViewModelFactory(context: Context): ViewModelProvider.Factory {
     return CreateNoteViewModel.Factory(context)
+}
+
+fun getPlanningViewModelFactory(context: Context): ViewModelProvider.Factory {
+    return PlanningViewModel.Factory(context)
 }

@@ -96,4 +96,5 @@
     <string name="lbl_low_priority">Low priority</string>
     <string name="lbl_open_drawer">Open drawer</string>
     <string name="lbl_close_drawer">Close drawer</string>
+    <string name="lbl_planning_draft_note">Planning draft note</string>
 </resources>
