@@ -3,8 +3,12 @@ package com.truongkhanh.supernote.view.planning
 import android.os.Bundle
 import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.base.BaseNoAppBarActivity
+import com.truongkhanh.supernote.model.DraftNote
+import com.truongkhanh.supernote.utils.DRAFT_NOTE_BUNDLE
+import com.truongkhanh.supernote.view.draftnote.create.CreateNoteActivity
+import org.jetbrains.anko.intentFor
 
-class PlanningActivity : BaseNoAppBarActivity() {
+class PlanningActivity : BaseNoAppBarActivity(), PlanningFragment.NavigationListener {
 
     private lateinit var planningFragment: PlanningFragment
 
@@ -19,8 +23,11 @@ class PlanningActivity : BaseNoAppBarActivity() {
         }
     }
 
-
     private fun setFragment(planningFragment: PlanningFragment) {
         replaceFragment(R.id.fragmentContainer, planningFragment)
+    }
+
+    override fun navigateToCreateNote(draftNote: DraftNote?) {
+        startActivity(intentFor<CreateNoteActivity>(DRAFT_NOTE_BUNDLE to draftNote))
     }
 }

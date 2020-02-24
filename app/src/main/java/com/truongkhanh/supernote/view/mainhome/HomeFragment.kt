@@ -22,6 +22,7 @@ import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.base.BaseFragment
 import com.truongkhanh.supernote.customcalendarview.CalendarMonthView
 import com.truongkhanh.supernote.customcalendarview.CalendarWeekView
+import com.truongkhanh.supernote.model.CheckItem
 import com.truongkhanh.supernote.model.MyCalendar
 import com.truongkhanh.supernote.model.TagType
 import com.truongkhanh.supernote.model.Todo
@@ -54,7 +55,6 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
                         softTodoListByDay(it)
                     }
                 }
-                view?.snackbar(it.hasScheme().toString())
                 homeViewModel.dateSelected.postValue(getMyCalendar(it))
             }
         }
@@ -120,10 +120,15 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
 
     private fun initNavigationDrawer() {
         btnNavigation.setImageResource(R.drawable.ic_menu_black_24dp)
-        fragmentHomeDrawerLayout.addDrawerListener(object : ActionBarDrawerToggle(activity, fragmentHomeDrawerLayout, R.string.lbl_open_drawer, R.string.lbl_close_drawer) {
+        fragmentHomeDrawerLayout.addDrawerListener(object : ActionBarDrawerToggle(
+            activity,
+            fragmentHomeDrawerLayout,
+            R.string.lbl_open_drawer,
+            R.string.lbl_close_drawer
+        ) {
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
-                view?.let{ forceCloseKeyboard(it) }
+                view?.let { forceCloseKeyboard(it) }
             }
         })
         initInformation()
@@ -141,7 +146,10 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
         RxView.clicks(tvStartDate)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
-                showDatePickerDialogFragment(DATE_PICKER_DIALOG_FRAGMENT_START_DATE_TAG, java.util.Calendar.getInstance(Locale.getDefault())) {
+                showDatePickerDialogFragment(
+                    DATE_PICKER_DIALOG_FRAGMENT_START_DATE_TAG,
+                    java.util.Calendar.getInstance(Locale.getDefault())
+                ) {
                     tvStartDate.text = getDateFormat(it)
                     homeViewModel.startDate.postValue(it.timeInMillis)
                 }
@@ -149,7 +157,10 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
         RxView.clicks(tvDeadline)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
-                showDatePickerDialogFragment(DATE_PICKER_DIALOG_FRAGMENT_DEADLINE_TAG, java.util.Calendar.getInstance(Locale.getDefault())) {
+                showDatePickerDialogFragment(
+                    DATE_PICKER_DIALOG_FRAGMENT_DEADLINE_TAG,
+                    java.util.Calendar.getInstance(Locale.getDefault())
+                ) {
                     tvDeadline.text = getDateFormat(it)
                     homeViewModel.deadline.postValue(it.timeInMillis)
                 }
@@ -171,7 +182,7 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
                 val currentPriority = homeViewModel.priority.value ?: MEDIUM_PRIORITY
-                showPriorityPickerDialogFragment(currentPriority) {newPriority ->
+                showPriorityPickerDialogFragment(currentPriority) { newPriority ->
                     homeViewModel.priority.postValue(newPriority)
                 }
             }.disposedBy(bag)
@@ -206,7 +217,9 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
         RxTextView.afterTextChangeEvents(etTotalEstimate)
             .skipInitialValue()
             .subscribe {
-                homeViewModel.estimateTotal.postValue(etTotalEstimate.text.toString().toIntOrNull()?:0)
+                homeViewModel.estimateTotal.postValue(
+                    etTotalEstimate.text.toString().toFloatOrNull() ?: 0F
+                )
             }.disposedBy(bag)
         RxAdapterView.itemSelections(spinnerDailyEstimate)
             .skipInitialValue()
@@ -245,7 +258,13 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
     private fun initRecyclerView(context: Context) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rvCurrentDayTodo.layoutManager = layoutManager
-        todoAdapter = TodoAdapter(context, this, calendarView.curDay, checkBoxListener) {
+        todoAdapter = TodoAdapter(
+            context,
+            this,
+            calendarView.curDay,
+            calendarView.curMonth,
+            checkBoxListener
+        ) {
             homeViewModel.getTagList(it)
         }
         rvCurrentDayTodo.adapter = todoAdapter
@@ -263,7 +282,15 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
         homeViewModel.todoListInMonth.observe(this, Observer {
             addScheme(it)
             todoAdapter.setItems(it)
-            todoAdapter.filter.filter(calendarView.selectedCalendar.day.toString())
+            todoAdapter.filter.filter(
+                MyCalendar(
+                    calendarView.selectedCalendar.day,
+                    calendarView.selectedCalendar.month,
+                    0,
+                    0,
+                    0
+                ).myCalendarToString()
+            )
         })
         homeViewModel.messageError.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let { message ->
@@ -286,13 +313,13 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
             }
             clearDraftNoteView()
         })
-        homeViewModel.priority.observe(this, Observer {priority ->
+        homeViewModel.priority.observe(this, Observer { priority ->
             tvPriority.text = getPriority(priority)
         })
     }
 
     private fun getPriority(priority: Int): String {
-        return when(priority) {
+        return when (priority) {
             HIGH_PRIORITY -> {
                 HIGH_TEXT
             }
@@ -352,7 +379,7 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
         color: Int,
         text: String
     ): Calendar {
-        val calendar: Calendar = Calendar()
+        val calendar = Calendar()
         calendar.year = year
         calendar.month = month
         calendar.day = day
@@ -386,7 +413,15 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
     }
 
     private fun softTodoListByDay(calendar: Calendar) {
-        todoAdapter.filter.filter(calendar.day.toString())
+        todoAdapter.filter.filter(
+            MyCalendar(
+                calendarView.selectedCalendar.day,
+                calendarView.selectedCalendar.month,
+                0,
+                0,
+                0
+            ).myCalendarToString()
+        )
     }
 
     private fun showDetailTodoDialog(todo: Todo, tagList: MutableList<TagType>?) {
@@ -396,7 +431,7 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
             }
             val bundle = Bundle()
             bundle.putParcelable(TODO_BUNDLE, todo)
-            todo.checkList?.checkItemsFromString()?.let { checkList ->
+            getCheckItems(todo.checkList)?.let { checkList ->
                 bundle.putParcelableArrayList(CHECK_LIST_BUNDLE, ArrayList(checkList))
             }
             tagList?.let { it1 ->
@@ -405,6 +440,13 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
             detailTodoDialogFragment.arguments = bundle
             detailTodoDialogFragment.show(it, DETAIL_TODO_DIALOG_FRAGMENT_TAG)
         }
+    }
+
+    private fun getCheckItems(checkList: String?): MutableList<CheckItem>? {
+        return if (!checkList.isNullOrEmpty())
+            checkList.checkItemsFromString()
+        else
+            null
     }
 
     private fun removeTodo(todo: Todo) {
@@ -464,7 +506,8 @@ class HomeFragment : BaseFragment(), TodoAdapter.NotifyListener {
         itemClickListener: (Int) -> Unit
     ) {
         activity?.supportFragmentManager?.let { fragmentManager ->
-            val priorityPickerDialogFragment = PriorityPickerDialogFragment.getInstance(itemClickListener)
+            val priorityPickerDialogFragment =
+                PriorityPickerDialogFragment.getInstance(itemClickListener)
             currentPriority?.let {
                 val bundle = Bundle()
                 bundle.putInt(PRIORITY_BUNDLE, currentPriority)

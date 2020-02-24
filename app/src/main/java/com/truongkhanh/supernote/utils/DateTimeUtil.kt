@@ -79,7 +79,7 @@ fun getDateTimeString(timeInMillis: Long): String {
     return  simpleDateFormat.format(calendar.time)
 }
 
-fun getTimeString2(calendar: Calendar): String {
+fun getTimeFormat(calendar: Calendar): String {
     val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     return simpleDateFormat.format(calendar.time)
 }
@@ -88,5 +88,12 @@ fun getDateString(dateTime: Long): String {
     val calendar = Calendar.getInstance(Locale.getDefault())
     calendar.timeInMillis = dateTime
     val simpleDateFormat = SimpleDateFormat("dd/mm/yyyy", Locale.getDefault())
+    return simpleDateFormat.format(calendar.time)
+}
+
+fun getDayMonthFormat(dateTime: Long): String {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.timeInMillis = dateTime
+    val simpleDateFormat = SimpleDateFormat("dd, MMM", Locale.getDefault())
     return simpleDateFormat.format(calendar.time)
 }

@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
 import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.model.CheckItem
+import com.truongkhanh.supernote.model.DraftNote
+import com.truongkhanh.supernote.model.MyCalendar
 import com.truongkhanh.supernote.model.ScheduleItem
 import com.truongkhanh.supernote.view.dialog.bottomsheet.AlertPickerDialogFragment
 
@@ -62,6 +64,16 @@ fun MutableList<ScheduleItem>.scheduleItemsToString(): String {
     return gson.toJson(this)
 }
 
+fun String.myCalendarFromString(): MyCalendar {
+    val gson = GsonBuilder().create()
+    return gson.fromJson(this, MyCalendar::class.java)
+}
+
+fun MyCalendar.myCalendarToString(): String {
+    val gson = GsonBuilder().create()
+    return gson.toJson(this)
+}
+
 fun String.scheduleItemsFromString(): MutableList<ScheduleItem> {
     val gson = GsonBuilder().create()
     return gson.fromJson(this, Array<ScheduleItem>::class.java).toMutableList()
@@ -90,4 +102,21 @@ fun getEvaluateIconText(context: Context, enum: Int): String {
         2 -> context.getString(R.string.lbl_month)
         else -> context.getString(R.string.lbl_day)
     }
+}
+
+fun String?.isThisEmpty(): Boolean {
+    return  this == null || this.isEmpty() || this == NULL_STRING
+}
+
+fun DraftNote.clone(): DraftNote {
+    return DraftNote(
+        this.id,
+        this.title,
+        this.description,
+        this.priority,
+        this.estimateTotal,
+        this.estimateDaily,
+        this.startDate,
+        this.deadline
+    )
 }

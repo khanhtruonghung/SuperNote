@@ -37,6 +37,7 @@ class CreateTodoViewModel(private val context: Context) : ViewModel() {
     val isAllDay = MutableLiveData<Boolean>().apply {
         postValue(false)
     }
+    val scheduleItems = MutableLiveData<MutableList<ScheduleItem>>()
 
     private var todoTagListRepository: TodoTagListRepository
     private var todoRepository: TodoRepository
@@ -111,10 +112,9 @@ class CreateTodoViewModel(private val context: Context) : ViewModel() {
             priority = priority.value,
             startDate = startCalendar.value?.timeInMillis!!,
             endDate = endCalendar.value?.timeInMillis!!,
-            isAllDay = isAllDay.value ?: false,
             alertType = alert.value ?: AlertPickerDialogFragment.NO_ALERT,
             notificationRequestID = NULL_STRING,
-            schedule = NULL_STRING
+            schedule = scheduleItems.value?.scheduleItemsToString()
         ).also { todo ->
             insertTodo(todo)
                 .subscribeOn(Schedulers.io())

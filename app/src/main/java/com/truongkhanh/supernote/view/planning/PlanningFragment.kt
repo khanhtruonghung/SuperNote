@@ -1,10 +1,13 @@
 package com.truongkhanh.supernote.view.planning
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +19,11 @@ import com.truongkhanh.supernote.model.MyCalendar
 import com.truongkhanh.supernote.utils.*
 import com.truongkhanh.supernote.view.dialog.bottomsheet.DatePickerDialogFragment
 import com.truongkhanh.supernote.view.draftnote.list.adapter.DraftListAdapter
+import com.truongkhanh.supernote.view.mainhome.HomeActivity
 import kotlinx.android.synthetic.main.fragment_planning.*
 import kotlinx.android.synthetic.main.layout_toolbar_light.*
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.intentFor
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -26,6 +31,10 @@ class PlanningFragment : BaseFragment() {
 
     companion object {
         fun getInstance() = PlanningFragment()
+    }
+
+    interface NavigationListener {
+        fun navigateToCreateNote(draftNote: DraftNote?)
     }
 
     override fun onCreateView(
@@ -36,7 +45,14 @@ class PlanningFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_planning, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is NavigationListener)
+            listener = context
+    }
+
     private lateinit var planningViewModel: PlanningViewModel
+    private lateinit var listener: NavigationListener
     private val bag = DisposeBag(this)
     private val animation = CustomAnimation()
     private var isCollapse = false
@@ -50,15 +66,15 @@ class PlanningFragment : BaseFragment() {
         setUpRecyclerView()
     }
 
-    private var longClickListener: (Pair<View, DraftNote>) -> Unit = {
-
+    private var longClickListener: (Pair<View, DraftNote>) -> Unit = {pair ->
+        showMenu(pair)
     }
 
     private fun setUpRecyclerView() {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rvDraftNote.layoutManager = layoutManager
         adapter = DraftListAdapter(longClickListener) {draftNote ->
-
+            listener.navigateToCreateNote(draftNote)
         }
         rvDraftNote.adapter = adapter
         planningViewModel.getDraftNote()
@@ -82,6 +98,9 @@ class PlanningFragment : BaseFragment() {
             it.getContentIfNotHandled()?.let{enable ->
                 progressBar.visibility = getEnable(enable)
             }
+        })
+        planningViewModel.navigateToHomeActivity.observe(this, Observer {_ ->
+            context?.startActivity(context?.intentFor<HomeActivity>())
         })
     }
 
@@ -134,7 +153,7 @@ class PlanningFragment : BaseFragment() {
         RxView.clicks(btnToday)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
-                planningViewModel.startGA(getStartTime(), getEndTime())
+                planningViewModel.prepare(getStartTime(), getEndTime())
             }.disposedBy(bag)
         RxView.clicks(tvStartDay)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
@@ -204,5 +223,16 @@ class PlanningFragment : BaseFragment() {
             myCalendar.minute = endTimePicker.currentMinute
         }
         return myCalendar
+    }
+
+    private fun showMenu(pair: Pair<View, DraftNote>) {
+        val context = context ?: return
+        val popup = PopupMenu(context, pair.first, Gravity.END)
+        popup.menuInflater.inflate(R.menu.menu_delete_note, popup.menu)
+        popup.setOnMenuItemClickListener {
+            planningViewModel.delete(pair.second)
+            true
+        }
+        popup.show()
     }
 }

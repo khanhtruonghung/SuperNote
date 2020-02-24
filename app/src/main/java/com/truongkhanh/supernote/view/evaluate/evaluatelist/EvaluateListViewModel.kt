@@ -27,7 +27,10 @@ class EvaluateListViewModel(context: Context) : ViewModel() {
     val navigateToCreateEvaluate: LiveData<Event<Evaluate>> get() = _navigateToCreateEvaluate
     private val _navigateToCreateEvaluate = MutableLiveData<Event<Evaluate>>()
 
-    var evaluateList: LiveData<MutableList<Evaluate>>
+    val evaluateList: LiveData<MutableList<Evaluate>>
+    val evaluateType = MutableLiveData<Int>().apply {
+        postValue(DAY)
+    }
 
     init {
         val dbConnection = ApplicationDatabase.getInstance(context)
@@ -35,7 +38,29 @@ class EvaluateListViewModel(context: Context) : ViewModel() {
         evaluateList = evaluateRepository.getAll()
     }
 
-    fun getDayEvaluate() {
+    fun changeEvaluateType() {
+        when(evaluateType.value) {
+            DAY -> evaluateType.value = WEEK
+            WEEK -> evaluateType.value = MONTH
+            MONTH -> evaluateType.value = DAY
+        }
+    }
+
+    fun getEvaluate() {
+        when (evaluateType.value) {
+            DAY -> {
+                getDayEvaluate()
+            }
+            MONTH -> {
+                getMonthEvaluate()
+            }
+            WEEK -> {
+                getWeekEvaluate()
+            }
+        }
+    }
+
+    private fun getDayEvaluate() {
         val calendar = Calendar.getInstance(Locale.getDefault())
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
@@ -52,7 +77,7 @@ class EvaluateListViewModel(context: Context) : ViewModel() {
             }).disposedBy(bag)
     }
 
-    fun getWeekEvaluate() {
+    private fun getWeekEvaluate() {
         val calendar = Calendar.getInstance(Locale.getDefault())
         val week = calendar.get(Calendar.WEEK_OF_MONTH)
         val month = calendar.get(Calendar.MONTH)
@@ -70,7 +95,7 @@ class EvaluateListViewModel(context: Context) : ViewModel() {
             }).disposedBy(bag)
     }
 
-    fun getMonthEvaluate() {
+    private fun getMonthEvaluate() {
         val calendar = Calendar.getInstance(Locale.getDefault())
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)

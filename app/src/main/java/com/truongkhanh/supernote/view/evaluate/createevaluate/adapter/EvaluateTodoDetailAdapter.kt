@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.model.Todo
 import com.truongkhanh.supernote.utils.DisposeBag
-import com.truongkhanh.supernote.utils.NULL_STRING
+import com.truongkhanh.supernote.utils.getDateTimeString
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,9 +41,8 @@ class EvaluateTodoDetailAdapter(
                 val data = getItem(position)
                 todoHolder.data = data
                 todoHolder.title.text = data.title
-                todoHolder.startDate.text = getTimeString(data.isAllDay, data.startDate)
-                todoHolder.endDate.text = getTimeString(data.isAllDay, data.endDate)
-                todoHolder.separate.text = getSeparateString(data.isAllDay)
+                todoHolder.startDate.text = getDateTimeString(data.startDate)
+                todoHolder.endDate.text = getDateTimeString(data.endDate)
             }
             DATE_TIME_STAMP_TYPE -> {
                 val dateTimeStampHolder = holder as DateTimeStampViewHolder
@@ -77,19 +76,19 @@ class EvaluateTodoDetailAdapter(
         else NORMAL_TODO_TYPE
     }
 
-    private fun getTimeString(isAllDay: Boolean, time: Long): String {
-        return if (isAllDay)
-            NULL_STRING
-        else
-            com.truongkhanh.supernote.utils.getTimeString(time)
-    }
-
-    private fun getSeparateString(isAllDay: Boolean): String {
-        return if (isAllDay)
-            context.getString(R.string.lbl_all_day)
-        else
-            context.getString(R.string.lbl_separate_time)
-    }
+//    private fun getTimeString(isAllDay: Boolean, time: Long): String {
+//        return if (isAllDay)
+//            NULL_STRING
+//        else
+//            com.truongkhanh.supernote.utils.getTimeString(time)
+//    }
+//
+//    private fun getSeparateString(isAllDay: Boolean): String {
+//        return if (isAllDay)
+//            context.getString(R.string.lbl_all_day)
+//        else
+//            context.getString(R.string.lbl_separate_time)
+//    }
 }
 
 const val NORMAL_TODO_TYPE = 0

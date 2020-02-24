@@ -14,6 +14,12 @@ class TodoRepository(private val todoDao: TodoDao) {
 
     fun insert(todo: Todo): Long = todoDao.createTodo(todo)
 
+    fun inSertAll(listTodo: MutableList<Todo>): Single<MutableList<Long>> {
+        return Single.fromCallable<MutableList<Long>> {
+            todoDao.insertAll(listTodo)
+        }
+    }
+
     fun insert2(todo: Todo): Single<Long> {
         return Single.fromCallable<Long> {
             todoDao.createTodo(todo)

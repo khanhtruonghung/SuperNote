@@ -123,7 +123,7 @@ class DetailTodoDialogFragment(private val deletedListener: (Todo) -> Unit) : Bo
             tvTitle.text = todo.title
             tvDescription.text = todo.description
             tvPriority.text = todo.priority.toString()
-            cbIsAllDay.isChecked = todo.isAllDay
+//            cbIsAllDay.isChecked = todo.isAllDay
         })
         detailTodoDialogViewModel.deletedEvent.observe(this, Observer {event ->
             event.getContentIfNotHandled()?.let{todo ->

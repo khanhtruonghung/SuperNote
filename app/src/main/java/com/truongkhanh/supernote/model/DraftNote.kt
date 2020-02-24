@@ -18,7 +18,7 @@ data class DraftNote(
     @ColumnInfo(name = "Priority")
     var priority: Int,
     @ColumnInfo(name = "Estimate_Total")
-    var estimateTotal: Int,
+    var estimateTotal: Float,
     @ColumnInfo(name = "Estimate_Daily")
     var estimateDaily: Int,
     @ColumnInfo(name = "Start_Date")
@@ -31,7 +31,7 @@ data class DraftNote(
         parcel.readString(),
         parcel.readString(),
         parcel.readInt(),
-        parcel.readInt(),
+        parcel.readFloat(),
         parcel.readInt(),
         parcel.readLong(),
         parcel.readLong()
@@ -43,7 +43,7 @@ data class DraftNote(
         parcel.writeString(title)
         parcel.writeString(description)
         parcel.writeInt(priority)
-        parcel.writeInt(estimateTotal)
+        parcel.writeFloat(estimateTotal)
         parcel.writeInt(estimateDaily)
         parcel.writeLong(startDate)
         parcel.writeLong(deadline)

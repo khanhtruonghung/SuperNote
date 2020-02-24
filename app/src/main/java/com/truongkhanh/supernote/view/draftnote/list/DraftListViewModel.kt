@@ -47,6 +47,7 @@ class DraftListViewModel(private val context: Context) : ViewModel() {
                 getListNote()
             }.disposedBy(bag)
     }
+
     class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

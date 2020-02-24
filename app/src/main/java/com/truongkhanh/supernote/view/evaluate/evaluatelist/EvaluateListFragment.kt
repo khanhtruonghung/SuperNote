@@ -12,6 +12,9 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.truongkhanh.supernote.R
 import com.truongkhanh.supernote.base.BaseFragment
 import com.truongkhanh.supernote.model.Evaluate
+import com.truongkhanh.supernote.model.enumclass.DAY
+import com.truongkhanh.supernote.model.enumclass.MONTH
+import com.truongkhanh.supernote.model.enumclass.WEEK
 import com.truongkhanh.supernote.utils.*
 import com.truongkhanh.supernote.view.evaluate.evaluatelist.adapter.EvaluateListAdapter
 import kotlinx.android.synthetic.main.fragment_evaluate_list.*
@@ -86,6 +89,18 @@ class EvaluateListFragment : BaseFragment() {
                 navigationListener.navigateToCreateEvaluate(evaluate)
             }
         })
+        evaluateListViewModel.evaluateType.observe(this, Observer {type ->
+            tvEvaluateType.text = getEvaluateTypeText(type)
+        })
+    }
+
+    private fun getEvaluateTypeText(type: Int): String? {
+        return when (type) {
+            DAY -> context?.getString(R.string.lbl_full_day)
+            WEEK -> context?.getString(R.string.lbl_full_week)
+            MONTH -> context?.getString(R.string.lbl_full_month)
+            else -> NULL_STRING
+        }
     }
 
     private fun setVisibilityEmptyView(enable: Boolean) {
@@ -103,15 +118,20 @@ class EvaluateListFragment : BaseFragment() {
     }
 
     private fun initClickListener() {
-        RxView.clicks(bottomBar)
+        RxView.clicks(fbCreateTodo)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
-                evaluateListViewModel.getDayEvaluate()
+                evaluateListViewModel.getEvaluate()
             }.disposedBy(bag)
         RxView.clicks(btnNavigation)
             .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
             .subscribe {
                 activity?.finish()
+            }.disposedBy(bag)
+        RxView.clicks(evaluateType)
+            .throttleFirst(THROTTLE_TIME, TimeUnit.MILLISECONDS)
+            .subscribe {
+                evaluateListViewModel.changeEvaluateType()
             }.disposedBy(bag)
     }
 }

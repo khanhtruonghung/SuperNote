@@ -68,6 +68,13 @@ class CreateNoteFragment : BaseFragment() {
 
     private fun setIsNewNote() {
         isNewNote = true
+        createNoteViewModel.priority.postValue(MEDIUM_PRIORITY)
+        createNoteViewModel.estimateDaily.postValue(THIRTY_MINUTES)
+        createNoteViewModel.estimateTotal.postValue(3F)
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        createNoteViewModel.startDate.value = calendar.timeInMillis
+        calendar.add(Calendar.DAY_OF_MONTH, 9)
+        createNoteViewModel.deadline.value = calendar.timeInMillis
     }
 
     private fun bindingViewModel() {
@@ -182,7 +189,7 @@ class CreateNoteFragment : BaseFragment() {
         RxTextView.afterTextChangeEvents(etTotalEstimate)
             .skipInitialValue()
             .subscribe {
-                createNoteViewModel.estimateTotal.postValue(etTotalEstimate.text.toString().toIntOrNull()?:0)
+                createNoteViewModel.estimateTotal.postValue(etTotalEstimate.text.toString().toFloatOrNull()?:0F)
             }.disposedBy(bag)
         RxAdapterView.itemSelections(spinnerDailyEstimate)
             .skipInitialValue()

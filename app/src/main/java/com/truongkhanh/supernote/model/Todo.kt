@@ -23,8 +23,6 @@ data class Todo(
     var startDate: Long,
     @ColumnInfo(name = "End_Date")
     var endDate: Long,
-    @ColumnInfo(name = "Is_All_Day")
-    val isAllDay: Boolean = false,
     @ColumnInfo(name = "Alert_Type")
     var alertType: Int,
     @ColumnInfo(name = "Check_Done_Date")
@@ -46,7 +44,6 @@ data class Todo(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readLong(),
         parcel.readLong(),
-        parcel.readByte() != 0.toByte(),
         parcel.readInt(),
         parcel.readLong(),
         parcel.readByte() != 0.toByte(),
@@ -62,7 +59,6 @@ data class Todo(
         parcel.writeValue(priority)
         parcel.writeLong(startDate)
         parcel.writeLong(endDate)
-        parcel.writeByte(if (isAllDay) 1 else 0)
         parcel.writeInt(alertType)
         parcel.writeLong(checkDoneDate)
         parcel.writeByte(if (isDone) 1 else 0)

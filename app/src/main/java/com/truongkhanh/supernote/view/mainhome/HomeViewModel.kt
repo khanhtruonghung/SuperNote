@@ -43,7 +43,7 @@ class HomeViewModel(private val context: Context) : ViewModel() {
     val priority = MutableLiveData<Int>().apply {
         postValue(MEDIUM_PRIORITY)
     }
-    val estimateTotal = MutableLiveData<Int>().apply {
+    val estimateTotal = MutableLiveData<Float>().apply {
         postValue(DEFAULT_TOTAL_ESTIMATE)
     }
     val estimateDaily = MutableLiveData<Int>().apply {
@@ -65,10 +65,6 @@ class HomeViewModel(private val context: Context) : ViewModel() {
     fun getTodoByMonthOfYear(calendar: MyCalendar) {
         val firstDay = getFirstDay(calendar)
         val lastDay = getLastDay(calendar)
-        val calendar1 = Calendar.getInstance(Locale.getDefault())
-        calendar1.timeInMillis = firstDay
-        val calendar2 = Calendar.getInstance(Locale.getDefault())
-        calendar2.timeInMillis = lastDay
         todoRepository.getTodoInMonth(firstDay, lastDay)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())

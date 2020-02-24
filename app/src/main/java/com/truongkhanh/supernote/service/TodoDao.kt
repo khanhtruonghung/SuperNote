@@ -7,7 +7,7 @@ import io.reactivex.Single
 
 @Dao
 interface TodoDao {
-    @Query("select * from Todo where End_Date between :firstDay and :lastDay order by Is_All_Day DESC, Start_Date ASC")
+    @Query("select * from Todo where End_Date between :firstDay and :lastDay order by Start_Date ASC")
     fun getTodoInMonth(firstDay: Long, lastDay: Long): Single<MutableList<Todo>>
 
     @Query("select * from Todo where End_Date between :start and :end order by Start_Date")
@@ -15,6 +15,9 @@ interface TodoDao {
 
     @Insert
     fun createTodo(todo: Todo): Long
+
+    @Insert
+    fun insertAll(listTodo: MutableList<Todo>): MutableList<Long>
 
     @Query("select * from Todo where rowid = :rowid")
     fun getTodoByRowid(rowid: Long): Todo

@@ -11,14 +11,16 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.truongkhanh.supernote.R
+import com.truongkhanh.supernote.model.MyCalendar
+import com.truongkhanh.supernote.model.ScheduleItem
 import com.truongkhanh.supernote.model.Todo
 import com.truongkhanh.supernote.utils.*
-import java.util.*
 
 class TodoAdapter(
     private val context: Context,
     private val listener: NotifyListener,
     dayInit: Int,
+    monthInit: Int,
     private val checkDoneListener: (Todo) -> Unit,
     private val todoClickListener: (Todo) -> Unit
 ) : RecyclerView.Adapter<TodoViewHolder>(), Filterable {
@@ -26,6 +28,7 @@ class TodoAdapter(
     private var todoListFiltered: MutableList<Todo> = mutableListOf()
     private var todoList: MutableList<Todo> = mutableListOf()
     private var currentDay: Int = dayInit
+    private var currentMonth: Int = monthInit
 
     interface NotifyListener {
         fun notifyFiltered()
@@ -51,20 +54,41 @@ class TodoAdapter(
         if (data.isDone) {
             holder.title.setText(data.title, TextView.BufferType.SPANNABLE)
             val spannable: Spannable = holder.title.text as Spannable
-            spannable.setSpan(StrikethroughSpan(), 0, data.title?.length ?: 0, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(
+                StrikethroughSpan(),
+                0,
+                data.title?.length ?: 0,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         } else {
             holder.title.text = data.title
         }
 
-        holder.startTime.text = getTimeString(data.startDate)
-        holder.endTime.text = getTimeString(data.endDate)
-        holder.separateTextView.text = getSeparateString(data)
+        getScheduleItems(data.schedule)?.let { scheduleItems ->
+            var scheduleItem: ScheduleItem? = null
+            for (item in scheduleItems) {
+                if (item.timeStart?.day == currentDay && item.timeStart?.month == currentMonth) {
+                    scheduleItem = item
+                    break
+                }
+            }
+            scheduleItem?.let {
+                holder.startTime.text = getTimeString2(it.timeStart)
+                holder.endTime.text = getTimeString2(it.timeEnd)
+            }
+        }
         holder.priority.text = data.priority.toString()
         holder.checkbox.isChecked = data.isDone
     }
 
+    private fun getScheduleItems(schedule: String?): MutableList<ScheduleItem>? {
+        if (!schedule.isThisEmpty())
+            return schedule?.scheduleItemsFromString()
+        return null
+    }
+
     private fun getTitleTextColor(isDone: Boolean): Int {
-        return if(isDone)
+        return if (isDone)
             getColor(COLOR_GREY_500)
         else
             getColor(COLOR_WHITE_GREY)
@@ -109,51 +133,76 @@ class TodoAdapter(
         notifyItemRemoved(position2)
     }
 
-    private fun getTimeString(date: Long): String {
-        val calendar = Calendar.getInstance(Locale.getDefault())
-        calendar.timeInMillis = date
-        return when (calendar.get(Calendar.DAY_OF_MONTH)) {
-            currentDay -> getTimeString2(calendar)
-            else -> NULL_STRING
-        }
-    }
+//    private fun getTimeString(date: Long): String {
+//        val calendar = Calendar.getInstance(Locale.getDefault())
+//        calendar.timeInMillis = date
+//        return when (calendar.get(Calendar.DAY_OF_MONTH)) {
+//            currentDay -> getTimeFormat(calendar)
+//            else -> NULL_STRING
+//        }
+//    }
 
-    private fun getSeparateString(data: Todo): String {
-        val startCalendar = Calendar.getInstance(Locale.getDefault())
-        startCalendar.timeInMillis = data.startDate
-        val startDay: Int = startCalendar.get(Calendar.DAY_OF_MONTH)
-
-        val endCalendar = Calendar.getInstance(Locale.getDefault())
-        endCalendar.timeInMillis = data.endDate
-        val endDay:Int = endCalendar.get(Calendar.DAY_OF_MONTH)
-
-        return when {
-            (currentDay != startDay && currentDay != endDay) -> {
-                context.getString(R.string.lbl_all_day)
-            }
-            data.isAllDay -> {
-                context.getString(R.string.lbl_all_day)
+    private fun getTimeString2(myCalendar: MyCalendar?): String {
+        return when (myCalendar?.day) {
+            currentDay -> {
+                var hour = myCalendar.hour.toString()
+                var minute = myCalendar.minute.toString()
+                if (myCalendar.minute < 10)
+                    minute = "0".plus(minute)
+                if (myCalendar.hour < 10)
+                    hour = "0".plus(hour)
+                hour.plus(":").plus(minute)
             }
             else -> {
-                context.getString(R.string.lbl_separate_time)
+                NULL_STRING
             }
         }
     }
 
     override fun getFilter() = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            currentDay = constraint.toString().toInt()
+            constraint.toString().myCalendarFromString().let {
+                currentDay = it.day
+                currentMonth = it.month
+            }
             val filterList: MutableList<Todo> = mutableListOf()
             todoList.forEach { todo ->
-                val endDay = getTodoEndDay(todo)
-                val startDay = getTodoStartDay(todo)
-                if (isDayBetween(startDay, endDay, currentDay))
-                    filterList.add(todo)
+                getScheduleItems(todo.schedule)?.let { scheduleItems ->
+                    for (item in scheduleItems) {
+                        if (item.timeStart?.day == currentDay && item.timeStart?.month == currentMonth) {
+                            filterList.add(todo)
+                            break
+                        }
+                    }
+                }
+            }
+            filterList.sortBy { todo ->
+                var date: Long = 0
+                todo.schedule?.scheduleItemsFromString()?.forEach { scheduleItem ->
+                    if (scheduleItem.timeStart?.day == currentDay && scheduleItem.timeStart?.month == currentMonth)
+                        date = scheduleItem.date
+                }
+                date
             }
             val filterResults = FilterResults()
             filterResults.values = filterList
             return filterResults
         }
+
+//        fun MutableList<Todo>.getPosition(insertItem: ScheduleItem): Int {
+//            if (this.count() == 0)
+//                return 0
+//            this.forEachIndexed { index, todo ->
+//                todo.schedule?.scheduleItemsFromString()?.forEach { scheduleItem ->
+//                    if (scheduleItem.timeStart?.day == insertItem.timeStart?.day && scheduleItem.timeStart?.month == insertItem.timeStart?.month) {
+//                        if (insertItem.date > scheduleItem.date)
+//                            return index + 1
+//                        return index
+//                    }
+//                }
+//            }
+//            return this.count()
+//        }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
             results?.values?.let {

@@ -2,14 +2,14 @@
     <string name="app_name">SuperNote</string>
     <string name="lbl_title">Title</string>
     <string name="lbl_description">Description</string>
-    <string name="lbl_start">Start:</string>
+    <string name="lbl_start">Start</string>
     <string name="lbl_start_date">Start Date:</string>
-    <string name="lbl_end">End:</string>
+    <string name="lbl_end">End</string>
     <string name="lbl_end_date">End Date:</string>
     <string name="lbl_is_all_day">Is All Day</string>
     <string name="lbl_save">Save</string>
     <string name="lbl_cancel">Cancel</string>
-    <string name="lbl_alert">Alert:</string>
+    <string name="lbl_alert">Alert</string>
     <string name="lbl_add_list_item">+ List item</string>
     <string name="lbl_tag">Tag:</string>
     <string name="lbl_10_minutes">10 minutes</string>
@@ -84,7 +84,7 @@
     <string name="lbl_add_new_evaluate_now">Add new evaluate now</string>
     <string name="lbl_is_optimize">Is Optimize\u0020</string>
     <string name="lbl_set_daily_working_time">Working hours</string>
-    <string name="lbl_to">To</string>
+    <string name="lbl_to">to</string>
     <string name="lbl_working_days">Working days</string>
     <string name="lbl_sort_config">Sort configure</string>
     <string name="lbl_daily_estimate">Daily estimate:</string>
@@ -97,4 +97,5 @@
     <string name="lbl_open_drawer">Open drawer</string>
     <string name="lbl_close_drawer">Close drawer</string>
     <string name="lbl_planning_draft_note">Planning draft note</string>
+    <string name="lbl_schedule">Schedule</string>
 </resources>
