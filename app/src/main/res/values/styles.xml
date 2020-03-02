@@ -8,4 +8,48 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+<<<<<<< Updated upstream
+=======
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ActionBarTitle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/lato_semibold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="selectableItemBackground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="NormalTextStyle">
+        <item name="android:textColor">@color/colorWhiteGray</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name="MainTextStyle">
+        <item name="android:textColor">@color/colorWhiteGray</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/lato_semibold</item>
+    </style>
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorWhiteGray</item>
+        <item name="colorPrimary">@color/colorWhiteGray</item>
+    </style>
+
+    <style name="CustomWhiteCheckBox">
+        <item name="android:buttonTint">@color/colorWhiteGray</item>
+    </style>
+
+    <style name="CustomDarkCheckBox">
+        <item name="android:buttonTint">@color/colorDark</item>
+    </style>
+
+>>>>>>> Stashed changes
 </resources>
