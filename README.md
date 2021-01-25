@@ -1,6 +1,6 @@
 # SuperNote
 
-An android application use to note down but I added a generic algorithm
+An android application use to note down but I added a genetic algorithm
 
 ## Features
 
